@@ -1,0 +1,5 @@
+root = true
+
+[*.{cc,hpp}]
+indent_size = 4
+indent_style = space

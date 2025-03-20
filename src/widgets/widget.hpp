@@ -1,0 +1,31 @@
+#pragma once
+
+#include "../rect.hpp"
+#include "../padding.hpp"
+#include <memory>
+
+namespace y11::widgets {
+
+class RendererVisitor;
+
+class Widget {
+public:
+    virtual Rect getBoundingRect() = 0;
+    virtual Point getPos() = 0;
+    virtual Size getSize() = 0;
+    
+    virtual bool hasChilds();
+    virtual std::shared_ptr<Widget> getWidgetById(unsigned short id);
+    virtual bool removeWidget(const std::shared_ptr<Widget> widget);
+    virtual bool removeWidgetById(unsigned short id);
+
+    virtual void accept(RendererVisitor& visitor) = 0;
+
+    virtual ~Widget() = 0;
+
+    Padding padding{};
+    unsigned short id{};
+};
+
+}
+
