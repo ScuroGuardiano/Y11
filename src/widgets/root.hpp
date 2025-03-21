@@ -1,5 +1,6 @@
 #pragma once
 
+#include "src/widgets/layout.hpp"
 #include "widget.hpp"
 #include <functional>
 #include <vector>
@@ -17,6 +18,9 @@ public:
         return widget;
     };
 
+    void setLayoutRect(const Rect& rect);
+    void applyLayout();
+
     bool removeWidget(std::shared_ptr<Widget> widget);
     bool removeWidgetById(unsigned short id);
     std::shared_ptr<Widget> getWidgetById(unsigned short id);
@@ -24,6 +28,7 @@ public:
 
 private:
     std::vector<std::shared_ptr<Widget>> widgets;
+    DefaultLayoutVisitor layoutVisitor;
 };
 
 }

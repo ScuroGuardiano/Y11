@@ -3,12 +3,13 @@
 #include "../rect.hpp"
 #include "../padding.hpp"
 #include "src/widgets/common.hpp"
-#include "src/widgets/renderer_metadata.hpp"
+#include "src/widgets/layout_metadata.hpp"
 #include <memory>
 
 namespace y11::widgets {
 
 class RendererVisitor;
+class LayoutVisitor;
 
 class Widget {
 public:
@@ -23,6 +24,7 @@ public:
     virtual bool removeWidgetById(unsigned short id);
 
     virtual void accept(RendererVisitor& visitor) = 0;
+    virtual void accept(LayoutVisitor& visitor);
 
     virtual ~Widget() = 0;
 
@@ -33,7 +35,8 @@ public:
 
     unsigned short id{};
 
-    std::unique_ptr<RendererMetadata> _rendererMetadata;
+protected:
+    LayoutMetadata layoutMetadata;
 };
 
 }

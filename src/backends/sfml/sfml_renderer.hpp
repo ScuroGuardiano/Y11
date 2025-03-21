@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "src/point.hpp"
+#include "src/widgets/layout_metadata.hpp"
 #include "src/widgets/renderer_visitor.hpp"
 
 namespace y11 {
@@ -9,7 +9,7 @@ namespace y11 {
 class SfmlRenderer : public widgets::RendererVisitor {
 public:
     SfmlRenderer(sf::RenderWindow& window);
-    void visit(widgets::Rectangle &rect) override;
+    void visit(widgets::Rectangle &rect, const widgets::LayoutMetadata& layoutMetadata) override;
 
 private:
     unsigned int getWidth(const Padding& padding) {
@@ -21,7 +21,6 @@ private:
     }
 
     sf::RenderWindow& window;
-    Point currentPos{};
 };
 
 }

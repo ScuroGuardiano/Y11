@@ -1,29 +1,30 @@
 #include "widget.hpp"
+#include "layout.hpp"
 
 namespace y11::widgets {
 
 Widget::~Widget() {}
 
 Point Widget::getPos() {
-    if (_rendererMetadata == nullptr) {
-        return {};
-    }
-    return _rendererMetadata->getPos();
+    return { layoutMetadata.x, layoutMetadata.y };
 }
 
 Size Widget::getSize() {
-    if (_rendererMetadata == nullptr) {
-        return {};
-    }
-    return _rendererMetadata->getSize();
+    return { layoutMetadata.width, layoutMetadata.height };
 }
 
 Rect Widget::getBoundingRect() {
-    if (_rendererMetadata == nullptr) {
-        return {};
-    }
-    return _rendererMetadata->getBoudingRect();
+    return {
+        layoutMetadata.x,
+        layoutMetadata.y,
+        layoutMetadata.width,
+        layoutMetadata.height
+    };
 }
+
+void Widget::accept(LayoutVisitor& visitor) {
+    visitor.visit(*this, layoutMetadata);
+};
 
 Widget* Widget::setPadding(Padding padding) {
     this->padding = padding;

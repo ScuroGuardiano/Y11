@@ -4,6 +4,16 @@
 
 namespace y11::widgets {
 
+void Root::setLayoutRect(const Rect& rect) {
+    layoutVisitor.setLayoutRect(rect);
+}
+
+void Root::applyLayout() {
+    for (auto& widget : widgets) {
+        widget->accept(layoutVisitor);
+    }
+}
+
 bool Root::removeWidget(const std::shared_ptr<Widget> widget) {
     // Depth first search
     if (widgets.empty()) return false;

@@ -15,7 +15,8 @@ executable(
     'src/widgets/rectangle.cc',
     'src/widgets/root.cc',
     'src/widgets/widget.cc',
-    'src/widgets/common.cc'
+    'src/widgets/common.cc',
+    'src/widgets/layout.cc'
     # 'src/widgets/column.cc',
     # 'src/widgets/row.cc'
   ],

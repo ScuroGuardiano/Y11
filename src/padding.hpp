@@ -13,6 +13,14 @@ struct Padding {
     inline Padding(short top, short right, short bottom, short left)
     : top(top), right(right), bottom(bottom), left(left) {}
 
+    inline short totalHorizontal() const {
+        return left + right;
+    }
+
+    inline short totalVertical() const {
+        return top + bottom;
+    }
+
     short top{}, right{}, bottom{}, left{};
 };
 

@@ -21,7 +21,7 @@ Rectangle* Rectangle::setColor(Color color) {
 }
 
 void Rectangle::accept(RendererVisitor& visitor) {
-    visitor.visit(*this);
+    visitor.visit(*this, this->layoutMetadata);
 }
 
 }

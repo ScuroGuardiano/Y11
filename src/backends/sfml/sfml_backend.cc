@@ -17,6 +17,13 @@ void SfmlBackend::init() {
 
 void SfmlBackend::render(widgets::Root& widgetTree) {
     window.clear();
+    
+    widgetTree.setLayoutRect({
+        // YOLO
+        0, 0, (unsigned short)window.getSize().x, (unsigned short)window.getSize().y
+    });
+
+    widgetTree.applyLayout();
 
     widgetTree.foreach([this](widgets::Widget& widget) {
         widget.accept(renderer);

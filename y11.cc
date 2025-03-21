@@ -12,7 +12,7 @@
 #include "src/backends/sfml/sfml_backend.hpp"
 
 std::unique_ptr<y11::Backend> createBackend() {
-    return std::make_unique<y11::SfmlBackend>(480, 320);
+    return std::make_unique<y11::SfmlBackend>(1200, 800);
 }
 
 #endif
