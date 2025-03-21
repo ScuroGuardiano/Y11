@@ -4,13 +4,9 @@
 
 namespace y11::widgets {
 
-void Root::addWidget(std::shared_ptr<Widget> widget) {
-    widgets.push_back(widget);
-};
-
 bool Root::removeWidget(const std::shared_ptr<Widget> widget) {
     // Depth first search
-    if (widgets.size() == 0) return false;
+    if (widgets.empty()) return false;
 
     for (auto it = widgets.begin(); it < widgets.end(); it++) {
         if (*it == widget) {
@@ -27,7 +23,7 @@ bool Root::removeWidget(const std::shared_ptr<Widget> widget) {
 }
 
 bool Root::removeWidgetById(unsigned short id) {
-    if (widgets.size() == 0) return false;
+    if (widgets.empty()) return false;
 
     for (auto it = widgets.begin(); it < widgets.end(); it++) {
         if ((*it)->id == id) {

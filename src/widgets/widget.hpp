@@ -2,6 +2,8 @@
 
 #include "../rect.hpp"
 #include "../padding.hpp"
+#include "src/widgets/common.hpp"
+#include "src/widgets/renderer_metadata.hpp"
 #include <memory>
 
 namespace y11::widgets {
@@ -10,11 +12,12 @@ class RendererVisitor;
 
 class Widget {
 public:
-    virtual Rect getBoundingRect() = 0;
-    virtual Point getPos() = 0;
-    virtual Size getSize() = 0;
+    virtual Rect getBoundingRect();
+    virtual Point getPos();
+    virtual Size getSize();
+    Widget* setPadding(Padding padding);
     
-    virtual bool hasChilds();
+    virtual bool hasChildren();
     virtual std::shared_ptr<Widget> getWidgetById(unsigned short id);
     virtual bool removeWidget(const std::shared_ptr<Widget> widget);
     virtual bool removeWidgetById(unsigned short id);
@@ -24,7 +27,13 @@ public:
     virtual ~Widget() = 0;
 
     Padding padding{};
+
+    Dimension width{};
+    Dimension height{};
+
     unsigned short id{};
+
+    std::unique_ptr<RendererMetadata> _rendererMetadata;
 };
 
 }

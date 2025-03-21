@@ -4,7 +4,34 @@ namespace y11::widgets {
 
 Widget::~Widget() {}
 
-bool Widget::hasChilds() {
+Point Widget::getPos() {
+    if (_rendererMetadata == nullptr) {
+        return {};
+    }
+    return _rendererMetadata->getPos();
+}
+
+Size Widget::getSize() {
+    if (_rendererMetadata == nullptr) {
+        return {};
+    }
+    return _rendererMetadata->getSize();
+}
+
+Rect Widget::getBoundingRect() {
+    if (_rendererMetadata == nullptr) {
+        return {};
+    }
+    return _rendererMetadata->getBoudingRect();
+}
+
+Widget* Widget::setPadding(Padding padding) {
+    this->padding = padding;
+
+    return this;
+}
+
+bool Widget::hasChildren() {
     return false;
 }
 

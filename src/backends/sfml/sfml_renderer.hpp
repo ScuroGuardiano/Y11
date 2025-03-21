@@ -12,6 +12,14 @@ public:
     void visit(widgets::Rectangle &rect) override;
 
 private:
+    unsigned int getWidth(const Padding& padding) {
+        return window.getSize().x - padding.left - padding.right;
+    }
+
+    unsigned int getHeight(const Padding& padding) {
+        return window.getSize().y - padding.top - padding.bottom;
+    }
+
     sf::RenderWindow& window;
     Point currentPos{};
 };

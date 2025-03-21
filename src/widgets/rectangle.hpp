@@ -1,28 +1,21 @@
 #pragma once
 
 #include "../color.hpp"
+#include "src/widgets/common.hpp"
 #include "widget.hpp"
 
 namespace y11::widgets {
 
 class Rectangle : public Widget {
 public:
-    Rectangle(unsigned short width, unsigned short height);
-    Rect getBoundingRect() override;
-    Point getPos() override;
-    Size getSize() override;
+    Rectangle(Dimension width, Dimension height);
 
-    void setPos(short x, short y);
+    Rectangle* setColor(Color color);
+    Rectangle* setSize(Dimension width, Dimension height);
 
     void accept(RendererVisitor& visitor) override;
 
     Color color = y11::colors::black;
-    unsigned short width;
-    unsigned short height;
-
-private:
-    short x{};
-    short y{};
 };
 
 }

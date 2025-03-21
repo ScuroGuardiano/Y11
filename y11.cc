@@ -19,22 +19,20 @@ std::unique_ptr<y11::Backend> createBackend() {
 
 int main() {
     using namespace y11::widgets;
+    using namespace y11::widgets::literals;
 
-    auto backend = createBackend();
+    const auto backend = createBackend();
     backend->init();
 
     Root widgetTree;
 
-    auto rect1 = std::make_shared<Rectangle>(200, 100);
-    rect1->padding = y11::Padding(40);
-    rect1->color = y11::colors::white;
+    widgetTree.addWidget(std::make_shared<Rectangle>(200_px, 100_px))
+        ->setColor(y11::colors::white)
+        ->setPadding({ 40 });
 
-    auto rect2 = std::make_shared<Rectangle>(50, 50);
-    rect2->padding.left = 40;
-    rect2->color = y11::Color(0, 255, 0);
-
-    widgetTree.addWidget(rect1);
-    widgetTree.addWidget(rect2);
+    widgetTree.addWidget(std::make_shared<Rectangle>(1.0_pc, 50_px))
+        ->setColor({ 0, 255, 0 })
+        ->setPadding({ 0, 40 });
 
     backend->render(widgetTree);
     sleep(5);

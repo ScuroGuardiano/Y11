@@ -5,15 +5,19 @@ project('Y11', 'cpp',
 sfml = dependency('sfml')
 opengl = dependency('opengl')
 
-opengl_exe = executable(
+executable(
   'Y11_sfml',
   [
     'y11.cc',
     'src/backends/sfml/sfml_backend.cc',
     'src/backends/sfml/sfml_renderer.cc',
+    'src/backends/sfml/sfml_widget_metadata.cc',
     'src/widgets/rectangle.cc',
     'src/widgets/root.cc',
-    'src/widgets/widget.cc'
+    'src/widgets/widget.cc',
+    'src/widgets/common.cc'
+    # 'src/widgets/column.cc',
+    # 'src/widgets/row.cc'
   ],
   dependencies: [ sfml, opengl ]
 )

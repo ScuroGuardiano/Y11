@@ -3,24 +3,21 @@
 
 namespace y11::widgets {
 
-Rectangle::Rectangle(unsigned short width, unsigned short height)
-: width(width), height(height) {}
-
-Rect Rectangle::getBoundingRect() {
-    return Rect(x, y, width, height);
+Rectangle::Rectangle(Dimension width, Dimension height) {
+    this->width = width;
+    this->height = height;
 }
 
-Size Rectangle::getSize() {
-    return Size(width, height);
+Rectangle* Rectangle::setSize(Dimension width, Dimension height) {
+    this->width = width;
+    this->height = height;
+
+    return this;
 }
 
-Point Rectangle::getPos() {
-    return Point(x, y);
-}
-
-void Rectangle::setPos(short x, short y) {
-    this->x = x;
-    this->y = y;
+Rectangle* Rectangle::setColor(Color color) {
+    this->color = color;
+    return this;
 }
 
 void Rectangle::accept(RendererVisitor& visitor) {
