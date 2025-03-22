@@ -2,7 +2,6 @@
 
 #include "src/widgets/common.hpp"
 #include "src/widgets/layout.hpp"
-#include "src/widgets/renderer_visitor.hpp"
 #include "src/widgets/widget.hpp"
 #include <memory>
 #include <vector>
@@ -15,7 +14,18 @@ public:
     // Point getPos() override;
     // Size getSize() override;
 
+    AutoSizeHint getAutoSizeHint() override;
+
     bool hasChildren() override;
+
+    template <class T>
+    std::shared_ptr<T> addWidget(std::shared_ptr<T> widget) {
+        static_assert(std::is_base_of<Widget, T>::value, "T must inherit from Widget");
+
+        children.push_back(widget);
+        return widget;
+    }
+
     std::shared_ptr<Widget> getWidgetById(unsigned short id) override;
     bool removeWidget(const std::shared_ptr<Widget> widget) override;
     bool removeWidgetById(unsigned short id) override;

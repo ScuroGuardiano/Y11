@@ -32,8 +32,8 @@ enum class DimensionUnit : short {
 };
 
 enum class AutoSizeHint {
-    FitContent,
-    Expand
+    FIT_CONTENT,
+    EXPAND
 };
 
 class Dimension {

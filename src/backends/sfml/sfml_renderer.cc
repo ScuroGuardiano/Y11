@@ -15,5 +15,8 @@ void SfmlRenderer::visit(widgets::Rectangle &rect, const widgets::LayoutMetadata
     window.draw(sf_rect);
 }
 
+void SfmlRenderer::visit(widgets::Column &column, const widgets::LayoutMetadata &metadata) {
+}
+
 }
 

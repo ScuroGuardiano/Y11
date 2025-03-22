@@ -16,8 +16,8 @@ executable(
     'src/widgets/root.cc',
     'src/widgets/widget.cc',
     'src/widgets/common.cc',
-    'src/widgets/layout.cc'
-    # 'src/widgets/column.cc',
+    'src/widgets/layout.cc',
+    'src/widgets/column.cc',
     # 'src/widgets/row.cc'
   ],
   dependencies: [ sfml, opengl ]

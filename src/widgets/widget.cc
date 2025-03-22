@@ -22,6 +22,10 @@ Rect Widget::getBoundingRect() {
     };
 }
 
+AutoSizeHint Widget::getAutoSizeHint() {
+    return AutoSizeHint::FIT_CONTENT;
+}
+
 void Widget::accept(LayoutVisitor& visitor) {
     visitor.visit(*this, layoutMetadata);
 };

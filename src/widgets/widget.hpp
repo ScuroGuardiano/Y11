@@ -11,17 +11,13 @@ namespace y11::widgets {
 class RendererVisitor;
 class LayoutVisitor;
 
-enum class WidgetDisplayType {
-    BLOCK,
-    INLINE
-};
-
 class Widget {
 public:
     virtual Rect getBoundingRect();
     virtual Point getPos();
     virtual Size getSize();
-    Widget* setPadding(Padding padding);
+    virtual AutoSizeHint getAutoSizeHint();
+    virtual Widget* setPadding(Padding padding);
     
     virtual bool hasChildren();
     virtual std::shared_ptr<Widget> getWidgetById(unsigned short id);
