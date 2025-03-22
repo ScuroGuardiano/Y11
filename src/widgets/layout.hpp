@@ -7,7 +7,7 @@ namespace y11::widgets {
 
 class Root;
 
-class Layout : Widget {
+class Layout : public Widget {
 public:
     /*
     * Applies layout to it's children

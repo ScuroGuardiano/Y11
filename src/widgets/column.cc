@@ -2,16 +2,12 @@
 
 namespace y11::widgets {
 
-Rect Column::getBoundingRect() {
+void Column::accept(RendererVisitor& visitor) {
     // TODO
 }
 
-Point Column::getPos() {
-
-}
-
-Size Column::getSize() {
-    return {0, 0};
+void Column::accept(LayoutVisitor& layoutVisitor) {
+    layoutVisitor.visit(*this, layoutMetadata);
 }
 
 bool Column::hasChildren() {
@@ -19,3 +15,4 @@ bool Column::hasChildren() {
 }
 
 } // namespace y11::widgets
+

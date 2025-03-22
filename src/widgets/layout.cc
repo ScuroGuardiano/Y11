@@ -6,7 +6,7 @@ namespace y11::widgets {
 
 void Layout::accept(LayoutVisitor& visitor) {
     visitor.visit(*this, this->layoutMetadata);
-    this->apply();
+    this->applyLayout();
 };
 
 DefaultLayoutVisitor::DefaultLayoutVisitor() {}

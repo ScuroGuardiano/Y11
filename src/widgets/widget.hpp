@@ -11,6 +11,11 @@ namespace y11::widgets {
 class RendererVisitor;
 class LayoutVisitor;
 
+enum class WidgetDisplayType {
+    BLOCK,
+    INLINE
+};
+
 class Widget {
 public:
     virtual Rect getBoundingRect();
