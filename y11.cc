@@ -6,8 +6,6 @@
 #include <memory>
 #include <unistd.h>
 
-#define Y11_BACKEND_USE_SFML
-
 #ifdef Y11_BACKEND_USE_SFML
 #include "src/backends/sfml/sfml_backend.hpp"
 
@@ -15,7 +13,14 @@ std::unique_ptr<y11::Backend> createBackend() {
     return std::make_unique<y11::SfmlBackend>(1200, 800);
 }
 
+#elif defined(Y11_BACKEND_USE_BLANK)
+
+std::unique_ptr<y11::Backend> createBackend() {
+    return std::make_unique<y11::BlankBackend>();
+}
+
 #endif
+
 
 int main() {
     using namespace y11::widgets;

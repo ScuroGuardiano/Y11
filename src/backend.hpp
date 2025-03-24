@@ -16,5 +16,11 @@ protected:
 
 inline Backend::~Backend() {}
 
+class BlankBackend : public Backend {
+public:
+    inline void init() override {}
+    inline void render(widgets::Root&) override {}
+};
+
 }
 

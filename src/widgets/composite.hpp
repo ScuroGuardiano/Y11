@@ -8,7 +8,7 @@
 
 namespace y11::widgets {
 
-class CompositeWidget {
+class Composite {
 public:
     template <class T>
     std::shared_ptr<T> addWidget(std::shared_ptr<T> widget) {

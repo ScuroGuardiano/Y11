@@ -5,21 +5,30 @@ project('Y11', 'cpp',
 sfml = dependency('sfml')
 opengl = dependency('opengl')
 
+y11_sources = [
+  'y11.cc',
+  'src/widgets/rectangle.cc',
+  'src/widgets/root.cc',
+  'src/widgets/widget.cc',
+  'src/widgets/common.cc',
+  'src/widgets/layout.cc',
+  'src/widgets/column.cc',
+  'src/widgets/composite.cc'
+]
+
 executable(
   'Y11_sfml',
-  [
-    'y11.cc',
+  y11_sources + [
     'src/backends/sfml/sfml_backend.cc',
     'src/backends/sfml/sfml_renderer.cc',
     'src/backends/sfml/sfml_widget_metadata.cc',
-    'src/widgets/rectangle.cc',
-    'src/widgets/root.cc',
-    'src/widgets/widget.cc',
-    'src/widgets/common.cc',
-    'src/widgets/layout.cc',
-    'src/widgets/column.cc',
-    # 'src/widgets/row.cc'
   ],
-  dependencies: [ sfml, opengl ]
+  dependencies: [ sfml, opengl ],
+  cpp_args: '-DY11_BACKEND_USE_SFML'
 )
 
+executable(
+  'Y11_blank',
+  y11_sources,
+  cpp_args: '-DY11_BACKEND_USE_BLANK'
+)

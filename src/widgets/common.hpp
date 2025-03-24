@@ -28,7 +28,8 @@ enum class Arrangement : short {
 enum class DimensionUnit : short {
     PIXEL,
     PERCENT,
-    AUTO
+    AUTO,
+    FIT_CONTENT
 };
 
 enum class AutoSizeHint {
@@ -50,6 +51,10 @@ public:
 
     constexpr static Dimension automatic() {
         return Dimension();
+    }
+
+    constexpr static Dimension fitContent() {
+        return Dimension(DimensionUnit::FIT_CONTENT, 0.f);
     }
 
     short getPixelValue(short totalPixels) const;
