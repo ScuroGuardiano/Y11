@@ -1,5 +1,6 @@
 #include "common.hpp"
 
+#include <cassert>
 #include <cmath>
 #include <limits>
 
@@ -22,8 +23,12 @@ short Dimension::getPixelValue(short totalPixels) const {
             return safeMultiply(totalPixels);
 
         case DimensionUnit::AUTO:
+        case DimensionUnit::FIT_CONTENT:
             return 0;
     }
+
+    assert(false); // unreachable
+    return 0; // just to get rid of warning
 };
 
 Dimension Dimension::operator-() const {

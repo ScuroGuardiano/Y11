@@ -10,6 +10,7 @@ class RendererVisitor {
 public:
     virtual void visit(Rectangle& rect, const LayoutMetadata& layoutMetadata) = 0;
     virtual void visit(Column& column, const LayoutMetadata& layoutMetadta) = 0;
+    virtual ~RendererVisitor() {}
 };
 
 }

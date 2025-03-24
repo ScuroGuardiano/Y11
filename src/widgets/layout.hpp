@@ -22,6 +22,7 @@ class LayoutVisitor {
 public:
     virtual void visit(Widget& widget, LayoutMetadata& metadata) = 0;
     virtual void visit(Layout& layout, LayoutMetadata& metadata) = 0;
+    virtual ~LayoutVisitor() {}
 };
 
 class DefaultLayoutVisitor : public LayoutVisitor {

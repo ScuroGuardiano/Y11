@@ -22,6 +22,7 @@ public:
     bool removeWidget(std::shared_ptr<Widget> widget);
     bool removeWidgetById(unsigned short id);
     void foreach(const std::function<void (Widget&)>& f);
+    virtual ~Composite() {}
 
 protected:
     std::vector<std::shared_ptr<Widget>> children;
