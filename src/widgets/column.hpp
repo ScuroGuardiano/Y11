@@ -28,20 +28,32 @@ public:
 
 private:
     Padding innerPadding{};
-    short x, y;
-    unsigned short gap;
+    short x{}, y{};
+    unsigned short gap{};
 
     HorizontalAlignment alignment = HorizontalAlignment::LEFT;
     Arrangement arrangement = Arrangement::START;
 
+    // =======================================
+    // ======== Column layout Visitor ========
+    // =======================================
     class ColumnLayoutVisitor : public LayoutVisitor {
     public:
-        ColumnLayoutVisitor(Column& column);
+        ColumnLayoutVisitor(const Column& column);
         void visit(Widget& widget, LayoutMetadata& metadata) override;
-        void visit(Layout& layout, LayoutMetadata& metadata) override;
 
     private:
-        Column& column; 
+        const Column& column;
+        Rect innerRect{};
+
+        // Grow axis is Y
+        short currentY{};
+
+        // Can hight grow or not
+        // If the height can grow then children with % or expand height
+        // will have their height set to minimum.
+        // because it's problematic to calculate their height in that case
+        bool heightGrow{};
     };
 
     friend ColumnLayoutVisitor;

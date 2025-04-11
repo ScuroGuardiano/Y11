@@ -21,7 +21,6 @@ public:
 class LayoutVisitor {
 public:
     virtual void visit(Widget& widget, LayoutMetadata& metadata) = 0;
-    virtual void visit(Layout& layout, LayoutMetadata& metadata) = 0;
     virtual ~LayoutVisitor() {}
 };
 
@@ -33,7 +32,6 @@ public:
     void setLayoutRect(const Rect& rect);
 
     void visit(Widget &widget, LayoutMetadata &metadata) override;
-    void visit(Layout &layout, LayoutMetadata &metadata) override;
 
 private:
     Rect rect{};

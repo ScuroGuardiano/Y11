@@ -1,4 +1,5 @@
 #include "layout.hpp"
+#include "src/widgets/common.hpp"
 #include "src/widgets/layout_metadata.hpp"
 #include <algorithm>
 
@@ -20,8 +21,25 @@ void DefaultLayoutVisitor::setLayoutRect(const Rect& rect) {
 }
 
 void DefaultLayoutVisitor::visit(Widget &widget, LayoutMetadata &metadata) {
-    metadata.width = std::max<short>(0, widget.width.getPixelValue(rect.width));
-    metadata.height = std::max<short>(0, widget.height.getPixelValue(rect.height));
+    // Width
+    bool expand = widget.width.isAuto() && widget.getWidthAutoSizeHint() == AutoSizeHint::EXPAND;
+    bool fitContent = (widget.width.isAuto() && widget.getWidthAutoSizeHint() == AutoSizeHint::FIT_CONTENT)
+        || widget.width.isFitContent();
+
+    short w = expand ? rect.width
+        : fitContent ? widget.measureWidth() : widget.width.getPixelValue(rect.width);
+
+    // Height
+    expand = widget.height.isAuto() && widget.getHeightAutoSizeHint() == AutoSizeHint::EXPAND;
+    fitContent = (widget.height.isAuto() && widget.getHeightAutoSizeHint() == AutoSizeHint::FIT_CONTENT)
+        || widget.height.isFitContent();
+
+    short h = expand ? rect.height
+        : fitContent ? widget.measureHeight() : widget.height.getPixelValue(rect.height);
+
+
+    metadata.width = std::max<short>(0, w);
+    metadata.height = std::max<short>(0, h);
 
     metadata.contentWidth = std::max<short>(0, metadata.width - widget.padding.totalHorizontal());
     metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
@@ -33,10 +51,6 @@ void DefaultLayoutVisitor::visit(Widget &widget, LayoutMetadata &metadata) {
     metadata.contentY = currentPos.y + widget.padding.top;
 
     this->currentPos.y += metadata.height;
-}
-
-void DefaultLayoutVisitor::visit(Layout &layout, LayoutMetadata &metadata) {
-    this->visit((Widget&)layout, metadata);
 }
 
 }

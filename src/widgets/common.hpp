@@ -62,6 +62,14 @@ public:
     DimensionUnit getUnit() const;
     Dimension operator-() const;
 
+    inline bool isAuto() const {
+        return this->unit == DimensionUnit::AUTO;
+    }
+
+    inline bool isFitContent() const {
+        return this->unit == DimensionUnit::FIT_CONTENT;
+    }
+
     // Dimension operator*(float scalar) const;
     // Dimension operator*(short scalar) const;
     // Dimension operator+(const Dimension& other) const;

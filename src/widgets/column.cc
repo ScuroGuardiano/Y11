@@ -26,10 +26,10 @@ unsigned short Column::measureWidth() {
             }
         }
 
-        return padding.totalHorizontal() + maxWidth;
+        return padding.totalHorizontal() + innerPadding.totalHorizontal() + maxWidth;
     }
 
-    return std::max<unsigned short>(padding.totalHorizontal(), width);
+    return std::max<unsigned short>(padding.totalHorizontal() + innerPadding.totalHorizontal(), width);
 }
 
 unsigned short Column::measureHeight() {
@@ -46,10 +46,10 @@ unsigned short Column::measureHeight() {
             childrenHeightSum += w->measureHeight();
         }
 
-        return padding.totalVertical() + childrenHeightSum;
+        return padding.totalVertical() + innerPadding.totalVertical() + childrenHeightSum;
     }
 
-    return height;
+    return std::max<unsigned short>(height, padding.totalVertical() + innerPadding.totalVertical());
 }
 
 void Column::accept(RendererVisitor& visitor) {
@@ -62,6 +62,52 @@ void Column::accept(LayoutVisitor& layoutVisitor) {
 }
 
 void Column::applyLayout() {
+    ColumnLayoutVisitor visitor(*this);
+
+    for (auto& w : children) {
+        w->accept(visitor);
+    }
+}
+
+Column* Column::setInnerPadding(Padding padding) {
+    this->innerPadding = padding;
+    return this;
+}
+
+Column* Column::setGap(unsigned short gap) {
+    this->gap = gap;
+    return this;
+}
+
+Column* Column::setAlignment(HorizontalAlignment alignment) {
+    this->alignment = alignment;
+    return this;
+}
+
+Column* Column::setArrangement(Arrangement arrangement) {
+    this->arrangement = arrangement;
+    return this;
+}
+
+Column::ColumnLayoutVisitor::ColumnLayoutVisitor(const Column& column)
+: column(column) {
+    innerRect.x = column.layoutMetadata.x + column.innerPadding.left;
+    innerRect.y = column.layoutMetadata.y + column.innerPadding.top;
+    short w = innerRect.width - column.innerPadding.totalHorizontal();
+    short h = innerRect.height - column.innerPadding.totalVertical();
+
+    innerRect.width = std::max<short>(0, w);
+    innerRect.height = std::max<short>(0, h);
+
+    currentY = innerRect.y;
+
+    // For now height can only grow if column is set to fit content
+    heightGrow = column.height.isAuto() || column.height.isFitContent();
+}
+
+
+
+void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata) {
 
 }
 

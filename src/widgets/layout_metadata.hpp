@@ -7,6 +7,7 @@ struct LayoutMetadata {
     short contentX{}, contentY{};
     unsigned short width{}, height{};
     unsigned short contentWidth{}, contentHeight{};
+    bool overflow = false;
 };
 
 }
