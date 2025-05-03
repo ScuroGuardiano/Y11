@@ -26,10 +26,10 @@ unsigned short Column::measureWidth() {
             }
         }
 
-        return padding.totalHorizontal() + innerPadding.totalHorizontal() + maxWidth;
+        return padding.totalHorizontal() + maxWidth;
     }
 
-    return std::max<unsigned short>(padding.totalHorizontal() + innerPadding.totalHorizontal(), width);
+    return std::max<unsigned short>(padding.totalHorizontal(), width);
 }
 
 unsigned short Column::measureHeight() {
@@ -46,10 +46,10 @@ unsigned short Column::measureHeight() {
             childrenHeightSum += w->measureHeight();
         }
 
-        return padding.totalVertical() + innerPadding.totalVertical() + childrenHeightSum;
+        return padding.totalVertical() + childrenHeightSum;
     }
 
-    return std::max<unsigned short>(height, padding.totalVertical() + innerPadding.totalVertical());
+    return std::max<unsigned short>(height, padding.totalVertical());
 }
 
 void Column::accept(RendererVisitor& visitor) {
@@ -69,10 +69,6 @@ void Column::applyLayout() {
     }
 }
 
-Column* Column::setInnerPadding(Padding padding) {
-    this->innerPadding = padding;
-    return this;
-}
 
 Column* Column::setGap(unsigned short gap) {
     this->gap = gap;
@@ -91,13 +87,11 @@ Column* Column::setArrangement(Arrangement arrangement) {
 
 Column::ColumnLayoutVisitor::ColumnLayoutVisitor(const Column& column)
 : column(column) {
-    innerRect.x = column.layoutMetadata.x + column.innerPadding.left;
-    innerRect.y = column.layoutMetadata.y + column.innerPadding.top;
-    short w = innerRect.width - column.innerPadding.totalHorizontal();
-    short h = innerRect.height - column.innerPadding.totalVertical();
+    innerRect.x = column.layoutMetadata.contentX;
+    innerRect.y = column.layoutMetadata.contentY;
 
-    innerRect.width = std::max<short>(0, w);
-    innerRect.height = std::max<short>(0, h);
+    innerRect.width = column.layoutMetadata.contentWidth;
+    innerRect.height = column.layoutMetadata.contentHeight;
 
     currentY = innerRect.y;
 
@@ -108,6 +102,48 @@ Column::ColumnLayoutVisitor::ColumnLayoutVisitor(const Column& column)
 
 
 void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata) {
+    // x pos and width
+    // x and width are easy because we have only 1 element occupying the space
+
+    Sizing hSizing = widget.getHorizontalSizing();
+    short w = 0;
+
+    if (hSizing == Sizing::FIT_CONTENT) {
+        w = widget.measureWidth();
+    }
+    else if (hSizing == Sizing::EXPAND) {
+        w = innerRect.width;
+    }
+    else {
+        w = widget.width.getPixelValue(innerRect.width);
+    }
+
+    if (w > innerRect.width) {
+        metadata.overflow = true;
+    }
+
+    metadata.x = innerRect.x;
+    metadata.contentX = innerRect.x + widget.padding.left;
+    metadata.width = std::max<short>(0, w);
+    metadata.contentWidth = std::max<short>(0, metadata.width - widget.padding.totalHorizontal());
+
+    // y pos and width
+    // Now it's fun! XD And I don't know how to do it
+    
+    if (heightGrow) {
+        // Let's go with easier path first, if height is growing then all percent values
+        // and expand values are just 0, because we can't calculate them reliably
+        // In other words, if `measureHeight` returns 0 to us then height of an element is zero.
+
+        short h = widget.measureHeight();
+
+        metadata.y = currentY;
+        metadata.contentY = metadata.y + widget.padding.top;
+        metadata.height = h;
+        metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
+
+        currentY += metadata.height + column.gap;
+    }
 
 }
 

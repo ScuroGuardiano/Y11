@@ -32,6 +32,42 @@ AutoSizeHint Widget::getHeightAutoSizeHint() {
     return AutoSizeHint::FIT_CONTENT;
 }
 
+Sizing Widget::getHorizontalSizing() {
+    switch (width.getUnit()) {
+        case DimensionUnit::PIXEL:
+            return Sizing::PIXEL;
+        case DimensionUnit::PERCENT:
+            return Sizing::PERCENT;
+        case DimensionUnit::FIT_CONTENT:
+            return Sizing::FIT_CONTENT;
+        case DimensionUnit::AUTO:
+            if (getWidthAutoSizeHint() == AutoSizeHint::FIT_CONTENT) {
+                return Sizing::FIT_CONTENT;
+            }
+            else {
+                return Sizing::EXPAND;
+            }
+    }
+}
+
+Sizing Widget::getVerticalSizing() {
+    switch (height.getUnit()) {
+        case DimensionUnit::PIXEL:
+            return Sizing::PIXEL;
+        case DimensionUnit::PERCENT:
+            return Sizing::PERCENT;
+        case DimensionUnit::FIT_CONTENT:
+            return Sizing::FIT_CONTENT;
+        case DimensionUnit::AUTO:
+            if (getHeightAutoSizeHint() == AutoSizeHint::FIT_CONTENT) {
+                return Sizing::FIT_CONTENT;
+            }
+            else {
+                return Sizing::EXPAND;
+            }
+    }
+}
+
 Size Widget::measure() {
     return { this->measureWidth(), this->measureHeight() };
 }

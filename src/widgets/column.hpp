@@ -21,13 +21,11 @@ public:
     void accept(LayoutVisitor& visitor) override;
     void applyLayout() override;
 
-    Column* setInnerPadding(Padding padding);
     Column* setGap(unsigned short gap);
     Column* setAlignment(HorizontalAlignment alignment);
     Column* setArrangement(Arrangement arrangement);
 
 private:
-    Padding innerPadding{};
     short x{}, y{};
     unsigned short gap{};
 

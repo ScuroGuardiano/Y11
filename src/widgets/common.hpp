@@ -37,6 +37,13 @@ enum class AutoSizeHint {
     EXPAND
 };
 
+enum class Sizing {
+    PIXEL,
+    PERCENT,
+    FIT_CONTENT,
+    EXPAND
+};
+
 class Dimension {
 public:
     constexpr Dimension() : value(0.f), unit(DimensionUnit::AUTO) {}

@@ -37,6 +37,17 @@ public:
     */
     virtual AutoSizeHint getHeightAutoSizeHint();
 
+
+    /*
+    * Returns how element should be sized horizontally, depends on width autosize hint and width
+    */
+    Sizing getHorizontalSizing();
+
+    /*
+     * Returns how element should be sized vertically, dpeends on height autosize hint and height
+     */
+    Sizing getVerticalSizing();
+
     /*
     * Tries to tell size needed for a widget in pixels.
     * If it's impossible to tell size without layout context then it'll return size of 0 
@@ -54,7 +65,6 @@ public:
     * If it's impossible to tell size without layout context then it'll return size of 0
     */
     virtual unsigned short measureHeight();
-
 
     virtual Widget* setPadding(Padding padding);
     
