@@ -71,6 +71,18 @@ void Column::applyLayout() {
     for (auto& w : children) {
         w->accept(visitor);
     }
+
+    short vsp = visitor.getUnusedVSpace();
+    if (vsp <= 0)
+    {
+        return;
+    }
+
+    ColumnArrangementVisitor arrangementVisitor(vsp, children.size(), arrangement);
+
+    for (auto& w : children) {
+        w->accept(arrangementVisitor);
+    }
 }
 
 
@@ -98,6 +110,11 @@ Column::ColumnLayoutVisitor::ColumnLayoutVisitor(const Column& column)
     innerRect.height = column.layoutMetadata.contentHeight;
 
     currentY = innerRect.y;
+
+    // For this arrangements ignore gaps because it could mess with exact positioning
+    ignoreGap = column.arrangement == Arrangement::SPACE_BETWEEN
+        || column.arrangement == Arrangement::SPACE_EVENLY
+        || column.arrangement == Arrangement::SPACE_AROUND;
 
     // For now height can only grow if column is set to fit content
     heightGrow = column.height.isAuto() || column.height.isFitContent();
@@ -207,31 +224,106 @@ void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata
         metadata.contentY = metadata.y + widget.padding.top;
         metadata.height = h;
         metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
-
-        currentY += metadata.height + column.gap;
     }
-    else if (freeVertPercSpace > 0)
+    else
     {
         metadata.y = currentY;
         metadata.contentY = metadata.y + widget.padding.top;
 
-        Dimension height;
+        short h = widget.measureHeight();
 
         if (widget.getVerticalSizing() == Sizing::PERCENT)
         {
-            height = widget.height;
+            h = widget.height.getPixelValue(freeVertPercSpace);
         }
         else if (widget.getVerticalSizing() == Sizing::EXPAND)
         {
-            height = Dimension::percent(1.0);
+            h = Dimension::percent(1.0).getPixelValue(freeVertPercSpace);
         }
 
-        metadata.height = height.getPixelValue(freeVertPercSpace);
+        metadata.height = h;
         metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
-
-        currentY += metadata.height + column.gap;
     }
 
+    currentY += metadata.height + (ignoreGap ? 0 : column.gap);
+}
+
+short Column::ColumnLayoutVisitor::getUnusedVSpace()
+{
+    short vsp = innerRect.height - currentY;
+
+    if (!ignoreGap)
+    {
+        // Cancel leading gap
+        vsp += column.gap;
+    }
+
+    return std::max<short>(0, vsp); 
+}
+
+Column::ColumnArrangementVisitor::ColumnArrangementVisitor(
+    short unusedVSpace,
+    short childrenCount,
+    Arrangement arrangement)
+    : childrenCount(childrenCount), arrangement(arrangement)
+{
+    switch (arrangement)
+    {
+        case Arrangement::START:
+            break;
+        case Arrangement::END:
+            offset = unusedVSpace;
+            break;
+        case Arrangement::CENTER:
+            offset = unusedVSpace / 2;
+            break;
+        case Arrangement::SPACE_BETWEEN:
+            offset = unusedVSpace / (childrenCount - 1);
+            break;
+        case Arrangement::SPACE_EVENLY:
+            offset = unusedVSpace / (childrenCount + 1);
+            break;
+        case Arrangement::SPACE_AROUND:
+            offset = unusedVSpace / (childrenCount * 2);
+            break;
+
+        default:
+            break;
+    }
+}
+
+void Column::ColumnArrangementVisitor::visit(Widget& widget, LayoutMetadata& metadata)
+{
+    switch (arrangement)
+    {
+        case Arrangement::START:
+            break;
+        case Arrangement::END:
+        case Arrangement::CENTER:
+            metadata.y += offset;
+            metadata.contentY += offset;
+            break;
+        
+        case Arrangement::SPACE_BETWEEN:
+            metadata.y += offset * n;
+            metadata.contentY += offset * n;
+            break;
+        
+        case Arrangement::SPACE_EVENLY:
+            metadata.y += offset + offset * n;
+            metadata.contentY += offset + offset * n;
+            break;
+
+        case Arrangement::SPACE_AROUND:
+            metadata.y += offset + offset * n * 2;
+            metadata.contentY += offset + offset * n * 2;
+            break; 
+
+        default:
+            break;
+    }
+
+    n++;
 }
 
 } // namespace y11::widgets

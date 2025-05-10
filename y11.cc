@@ -44,17 +44,18 @@ int main() {
     auto column = std::make_shared<Column>();
     column->setGap(10);
     column->setAlignment(HorizontalAlignment::CENTER);
-    column->setPadding(y11::Padding(10));
+    column->setArrangement(Arrangement::CENTER);
+    // column->setPadding(y11::Padding(10));
     column->height = 1.0_pc;
 
-    column->addWidget(std::make_shared<Rectangle>(0.25_pc, 1.0_pc))
-        ->setColor({ 0, 255, 0 });
+    // column->addWidget(std::make_shared<Rectangle>(0.25_pc, 0.2_pc))
+    //     ->setColor({ 0, 255, 0 });
 
-    column->addWidget(std::make_shared<Rectangle>(0.5_pc, 1.0_pc))
+    column->addWidget(std::make_shared<Rectangle>(0.5_pc, 0.5_pc))
         ->setColor({ 0, 0, 255 });
 
-    column->addWidget(std::make_shared<Rectangle>(0.75_pc, 1.0_pc))
-        ->setColor({ 255, 0, 0 });
+    // column->addWidget(std::make_shared<Rectangle>(0.75_pc, 0.2_pc))
+    //     ->setColor({ 255, 0, 0 });
 
     widgetTree.addWidget(column);
 

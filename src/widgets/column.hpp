@@ -35,10 +35,12 @@ private:
     // =======================================
     // ======== Column layout Visitor ========
     // =======================================
-    class ColumnLayoutVisitor : public LayoutVisitor {
+    class ColumnLayoutVisitor : public LayoutVisitor
+    {
     public:
         ColumnLayoutVisitor(const Column& column);
         void visit(Widget& widget, LayoutMetadata& metadata) override;
+        short getUnusedVSpace();
 
     private:
         const Column& column;
@@ -53,9 +55,30 @@ private:
         // because it's problematic to calculate their height in that case
         bool heightGrow{};
         short freeVertPercSpace{};
+        bool ignoreGap{};
     };
 
     friend ColumnLayoutVisitor;
+
+    // ============================================
+    // ======== Column arrangement Visitor ========
+    // ============================================
+
+    // Column arragement visitor applies arrangement to the elements.
+    // Because arranging items requires knowledge of size of everything it was
+    // the easiest way to just create another visitor.
+    class ColumnArrangementVisitor : public LayoutVisitor
+    {
+    public:
+        ColumnArrangementVisitor(short unusedVSpace, short childrenCount, Arrangement arrangement);
+        void visit(Widget& widget, LayoutMetadata& metadata) override;
+
+    private:
+        short n{};
+        short offset{};
+        short childrenCount{};
+        Arrangement arrangement{};
+    };
 };
 
 }
