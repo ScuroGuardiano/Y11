@@ -34,11 +34,13 @@ unsigned short Column::measureWidth() {
 
 unsigned short Column::measureHeight() {
     unsigned short height = 0;
+    Sizing vertSizing = this->getVerticalSizing();
 
-    if (this->height.getUnit() == DimensionUnit::PIXEL) {
+    if (vertSizing == Sizing::PIXEL)
+    {
         height = std::max<short>(0, this->height.getPixelValue(2137));
     }
-    else if (this->height.getUnit() == DimensionUnit::FIT_CONTENT)
+    else if (vertSizing == Sizing::FIT_CONTENT)
     {
         unsigned short childrenHeightSum = 0;
 
@@ -46,7 +48,9 @@ unsigned short Column::measureHeight() {
             childrenHeightSum += w->measureHeight();
         }
 
-        return padding.totalVertical() + childrenHeightSum;
+        return padding.totalVertical()
+            + gap * (children.size() - 1)
+            + childrenHeightSum;
     }
 
     return std::max<unsigned short>(height, padding.totalVertical());
@@ -97,9 +101,54 @@ Column::ColumnLayoutVisitor::ColumnLayoutVisitor(const Column& column)
 
     // For now height can only grow if column is set to fit content
     heightGrow = column.height.isAuto() || column.height.isFitContent();
+
+    if (!heightGrow)
+    {
+        // We have absolute height set, we need to calculate free space for % content
+        short childrenHeightSum = 0;
+        for (auto& w : column.children)
+        {
+            childrenHeightSum += w->measureHeight();
+        }
+        
+        freeVertPercSpace = innerRect.height
+            - childrenHeightSum
+            - column.gap * (column.children.size() - 1);
+
+        // We have also to divide it by total percentage of percent sized elements
+        // Because the space needs to be divided between all elements, similar to
+        // what it's done by browser engines. If we have 2 elements with 100% size,
+        // each will have only 50% of space available
+        // ----------------------
+        // |      |      |      |
+        // | 6px  | 100% | 100% |
+        // |      |      |      |
+        // ----------------------
+        // (image is for row XD)
+        // It won't be perfect because CSS calculates it a little bit differently
+        // but good enough
+
+        float totalPerc = 0;
+
+        for (auto& w : column.children)
+        {
+            if (w->height.getUnit() == DimensionUnit::PERCENT)
+            {
+                totalPerc += w->height.getValue();
+            }
+            else if (w->getVerticalSizing() == Sizing::EXPAND)
+            {
+                totalPerc += 1.0;
+            }
+        }
+
+        if (totalPerc > 1.0) {
+            float sp = freeVertPercSpace;
+            sp /= totalPerc;
+            freeVertPercSpace = (short)sp;
+        }
+    }
 }
-
-
 
 void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata) {
     // x pos and width
@@ -127,6 +176,23 @@ void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata
     metadata.width = std::max<short>(0, w);
     metadata.contentWidth = std::max<short>(0, metadata.width - widget.padding.totalHorizontal());
 
+    // alignment
+    if (!metadata.overflow) {
+        switch (column.alignment)
+        {
+            case HorizontalAlignment::LEFT:
+                break;
+            case HorizontalAlignment::RIGHT:
+                metadata.x = innerRect.width - metadata.width;
+                metadata.contentX = metadata.x + widget.padding.left;
+                break;
+            case HorizontalAlignment::CENTER:
+                metadata.x = (innerRect.width - metadata.width) / 2;
+                metadata.contentX = metadata.x + widget.padding.left;
+                break;
+        }
+    }
+
     // y pos and width
     // Now it's fun! XD And I don't know how to do it
     
@@ -140,6 +206,27 @@ void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata
         metadata.y = currentY;
         metadata.contentY = metadata.y + widget.padding.top;
         metadata.height = h;
+        metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
+
+        currentY += metadata.height + column.gap;
+    }
+    else if (freeVertPercSpace > 0)
+    {
+        metadata.y = currentY;
+        metadata.contentY = metadata.y + widget.padding.top;
+
+        Dimension height;
+
+        if (widget.getVerticalSizing() == Sizing::PERCENT)
+        {
+            height = widget.height;
+        }
+        else if (widget.getVerticalSizing() == Sizing::EXPAND)
+        {
+            height = Dimension::percent(1.0);
+        }
+
+        metadata.height = height.getPixelValue(freeVertPercSpace);
         metadata.contentHeight = std::max<short>(0, metadata.height - widget.padding.totalVertical());
 
         currentY += metadata.height + column.gap;

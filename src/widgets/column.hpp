@@ -52,6 +52,7 @@ private:
         // will have their height set to minimum.
         // because it's problematic to calculate their height in that case
         bool heightGrow{};
+        short freeVertPercSpace{};
     };
 
     friend ColumnLayoutVisitor;

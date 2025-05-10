@@ -1,6 +1,7 @@
 #include "sfml_renderer.hpp"
 #include "src/widgets/layout_metadata.hpp"
 #include "src/widgets/rectangle.hpp"
+#include "src/widgets/widget.hpp"
 
 namespace y11 {
 
@@ -16,6 +17,9 @@ void SfmlRenderer::visit(widgets::Rectangle &rect, const widgets::LayoutMetadata
 }
 
 void SfmlRenderer::visit(widgets::Column &column, const widgets::LayoutMetadata &metadata) {
+    column.foreach([this](widgets::Widget& w) {
+        w.accept(*this);
+    });
 }
 
 }
