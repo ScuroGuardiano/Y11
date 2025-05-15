@@ -25,4 +25,3 @@ void Rectangle::accept(RendererVisitor& visitor) {
 }
 
 }
-

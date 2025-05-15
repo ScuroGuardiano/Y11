@@ -1,3 +1,8 @@
 {
-    "mesonbuild.configureOnOpen": false
+    "mesonbuild.configureOnOpen": false,
+    "files.associations": {
+        "*.json": "jsonc",
+        "format": "cpp",
+        "variant": "cpp"
+    }
 }
