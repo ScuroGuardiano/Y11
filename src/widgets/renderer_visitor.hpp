@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rectangle.hpp"
+#include "circle.hpp"
 #include "layout_metadata.hpp"
 #include "column.hpp"
 
@@ -10,6 +11,7 @@ class RendererVisitor {
 public:
     virtual void visit(Rectangle& rect, const LayoutMetadata& layoutMetadata) = 0;
     virtual void visit(Column& column, const LayoutMetadata& layoutMetadta) = 0;
+    virtual void visit(Circle& circle, const LayoutMetadata& LayoutMetadata) = 0;
     virtual ~RendererVisitor() {}
 };
 

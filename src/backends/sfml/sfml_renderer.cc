@@ -22,5 +22,15 @@ void SfmlRenderer::visit(widgets::Column &column, const widgets::LayoutMetadata 
     });
 }
 
+void SfmlRenderer::visit(widgets::Circle &circle, const widgets::LayoutMetadata &metadata) {
+    sf::CircleShape sf_circle(circle.getRadius());
+    
+    sf_circle.setPosition(metadata.contentX, metadata.contentY);
+    Color color = circle.getColor();
+    sf_circle.setFillColor(sf::Color(color.r, color.g, color.b));
+
+
+    window.draw(sf_circle);
 }
 
+}

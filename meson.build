@@ -13,7 +13,8 @@ y11_sources = [
   'src/widgets/common.cc',
   'src/widgets/layout.cc',
   'src/widgets/column.cc',
-  'src/widgets/composite.cc'
+  'src/widgets/composite.cc',
+  'src/widgets/circle.cc'
 ]
 
 executable(
@@ -27,8 +28,8 @@ executable(
   cpp_args: '-DY11_BACKEND_USE_SFML'
 )
 
-executable(
-  'Y11_blank',
-  y11_sources,
-  cpp_args: '-DY11_BACKEND_USE_BLANK'
-)
+# executable(
+#   'Y11_blank',
+#   y11_sources,
+#   cpp_args: '-DY11_BACKEND_USE_BLANK'
+# )
