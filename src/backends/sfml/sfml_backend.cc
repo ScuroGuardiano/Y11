@@ -32,5 +32,15 @@ void SfmlBackend::render(widgets::Root& widgetTree) {
     window.display();
 }
 
+unsigned int SfmlBackend::getWidth()
+{
+    return this->width;
+}
+
+unsigned int SfmlBackend::getHeight()
+{
+    return this->height;
+}
+
 }
 

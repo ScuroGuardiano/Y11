@@ -2,6 +2,7 @@
 #include "src/padding.hpp"
 #include "src/widgets/column.hpp"
 #include "src/widgets/common.hpp"
+#include "src/widgets/ellipse.hpp"
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/circle.hpp"
 #include "src/widgets/root.hpp"
@@ -37,10 +38,10 @@ int main() {
     auto square = std::make_shared<Rectangle>(200_px, 200_px);
     square->setColor(y11::Color(0, 255, 0));
 
-    auto square2 = std::make_shared<Rectangle>(200_px, 200_px);
-    square2->setColor(y11::Color(0, 255, 0));
-
-    auto circle = std::make_shared<Circle>(100);
+    auto circle = std::make_shared<Circle>(0.1_pc, backend);
+    
+    auto ellipse = std::make_shared<Ellipse>(100_px, 0.2_pc, backend);
+    ellipse->setColor(y11::Color(0, 255, 0));
 
     auto column = std::make_shared<Column>();
     column
@@ -51,11 +52,11 @@ int main() {
     column->height = 1.0_pc;
 
     column->addWidget(square);
-    column->addWidget(square2);
+    column->addWidget(ellipse);
     column->addWidget(circle);
 
     widgetTree.addWidget(column);
 
     backend->render(widgetTree);
-    sleep(5);
+    sleep(2);
 }

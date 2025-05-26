@@ -1,5 +1,6 @@
 #pragma once
 
+#include "src/backend.hpp"
 #include "widget.hpp"
 #include "../color.hpp"
 #include "src/widgets/common.hpp"
@@ -8,11 +9,13 @@ namespace y11::widgets {
 
 class Circle : public Widget {
 public:
-    Circle(short radius);
+    Circle(Dimension radius);
+    Circle(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
 
     Circle* setColor(Color color);
-    Color getColor();
-    Circle* setRadius(short radius);
+    Color* getColor();
+    Circle* setRadius(Dimension radius);
+    Circle* setRadius(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
     short getRadius();
 
     unsigned short measureWidth() override;
