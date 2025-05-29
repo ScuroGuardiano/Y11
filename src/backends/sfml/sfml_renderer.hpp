@@ -11,6 +11,7 @@ class SfmlRenderer : public widgets::RendererVisitor {
 public:
     SfmlRenderer(sf::RenderWindow& window);
     void visit(widgets::Rectangle &rect, const widgets::LayoutMetadata& layoutMetadata) override;
+    void visit(widgets::Ellipse &ellipse, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Column &column, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Circle &circle, const widgets::LayoutMetadata& layoutMetadata) override;
 

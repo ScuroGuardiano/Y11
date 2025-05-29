@@ -15,6 +15,9 @@ public:
     void init() override;
     void render(widgets::Root& widgetTree) override;
 
+    unsigned int getWidth() override;
+    unsigned int getHeight() override;
+
 private:
     sf::RenderWindow window;
     SfmlRenderer renderer{window};

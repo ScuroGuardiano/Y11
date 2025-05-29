@@ -1,10 +1,14 @@
 #include "circle.hpp"
 #include "renderer_visitor.hpp"
+#include "src/widgets/common.hpp"
 
 namespace y11::widgets {
 
-Circle::Circle(short radius)
-    : radius(radius) {}
+Circle::Circle(Dimension radius)
+    : radius(radius.getPixelValue(2137)) {}
+
+Circle::Circle(Dimension radius, const std::unique_ptr<y11::Backend>& backend)
+    : radius(radius.getPixelValue(backend->getWidth())) {}
 
 Circle* Circle::setColor(Color color)
 {
@@ -12,14 +16,20 @@ Circle* Circle::setColor(Color color)
     return this;
 }
 
-Color Circle::getColor()
+Color* Circle::getColor()
 {
-    return this->color;
+    return &this->color;
 }
 
-Circle* Circle::setRadius(short radius)
+Circle* Circle::setRadius(Dimension radius)
 {
-    this->radius = radius;
+    this->radius = radius.getPixelValue(2137);
+    return this;
+}
+
+Circle* Circle::setRadius(Dimension radius, const std::unique_ptr<y11::Backend>& backend)
+{
+    this->radius = radius.getPixelValue(backend->getWidth());
     return this;
 }
 
