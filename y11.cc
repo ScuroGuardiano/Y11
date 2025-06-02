@@ -6,6 +6,7 @@
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/circle.hpp"
 #include "src/widgets/root.hpp"
+#include "src/widgets/row.hpp"
 
 #include <memory>
 #include <unistd.h>
@@ -54,6 +55,26 @@ int main() {
     column->addWidget(square);
     column->addWidget(ellipse);
     column->addWidget(circle);
+
+    auto row = std::make_shared<Row>();
+    row
+        ->setArrangement(Arrangement::SPACE_EVENLY)
+        ->setAlignment(VerticalAlignment::CENTER);
+    
+    auto rc1 = std::make_shared<Rectangle>(100_px, 100_px);
+    rc1->setColor(y11::Color(255, 0, 0));
+
+    auto rc2 = std::make_shared<Rectangle>(200_px, 400_px);
+    rc2->setColor(y11::Color(0, 255, 0));
+
+    auto rc3 = std::make_shared<Rectangle>(100_px, 1.0_pc);
+    rc3->setColor(y11::Color(0, 0, 255));
+
+    row->addWidget(rc1);
+    row->addWidget(rc2);
+    row->addWidget(rc3);
+
+    column->addWidget(row);
 
     widgetTree.addWidget(column);
 
