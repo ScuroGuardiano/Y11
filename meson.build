@@ -13,6 +13,7 @@ y11_sources = [
   'src/widgets/common.cc',
   'src/widgets/layout.cc',
   'src/widgets/column.cc',
+  'src/widgets/row.cc',
   'src/widgets/composite.cc',
   'src/widgets/circle.cc',
   'src/widgets/ellipse.cc',

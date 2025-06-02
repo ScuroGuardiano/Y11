@@ -194,24 +194,22 @@ void Column::ColumnLayoutVisitor::visit(Widget& widget, LayoutMetadata& metadata
     metadata.contentWidth = std::max<short>(0, metadata.width - widget.padding.totalHorizontal());
 
     // alignment
-    if (!metadata.overflow) {
-        switch (column.alignment)
-        {
-            case HorizontalAlignment::LEFT:
-                break;
-            case HorizontalAlignment::RIGHT:
-                metadata.x = innerRect.width - metadata.width;
-                metadata.contentX = metadata.x + widget.padding.left;
-                break;
-            case HorizontalAlignment::CENTER:
-                metadata.x = (innerRect.width - metadata.width) / 2;
-                metadata.contentX = metadata.x + widget.padding.left;
-                break;
-        }
+    switch (column.alignment)
+    {
+    case HorizontalAlignment::LEFT:
+        break;
+    case HorizontalAlignment::RIGHT:
+        metadata.x = innerRect.x + innerRect.width - metadata.width;
+        metadata.contentX = metadata.x + widget.padding.left;
+        break;
+    case HorizontalAlignment::CENTER:
+        metadata.x = innerRect.x + (innerRect.width - metadata.width) / 2;
+        metadata.contentX = metadata.x + widget.padding.left;
+        break;
     }
 
-    // y pos and width
-    // Now it's fun! XD And I don't know how to do it
+    // y pos and height
+    // Now it's fun!
     
     if (heightGrow) {
         // Let's go with easier path first, if height is growing then all percent values

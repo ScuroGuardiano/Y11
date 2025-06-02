@@ -38,6 +38,13 @@ void SfmlRenderer::visit(widgets::Column &column, const widgets::LayoutMetadata 
     });
 }
 
+void SfmlRenderer::visit(widgets::Row &row, const widgets::LayoutMetadata &metadata)
+{
+    row.foreach([this](widgets::Widget& w) {
+        w.accept(*this);
+    });
+}
+
 void SfmlRenderer::visit(widgets::Circle &circle, const widgets::LayoutMetadata &metadata) {
     sf::CircleShape sf_circle(circle.getRadius());
     

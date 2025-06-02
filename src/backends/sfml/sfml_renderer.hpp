@@ -4,6 +4,7 @@
 #include "src/widgets/column.hpp"
 #include "src/widgets/layout_metadata.hpp"
 #include "src/widgets/renderer_visitor.hpp"
+#include "src/widgets/row.hpp"
 
 namespace y11 {
 
@@ -13,6 +14,7 @@ public:
     void visit(widgets::Rectangle &rect, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Ellipse &ellipse, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Column &column, const widgets::LayoutMetadata& layoutMetadata) override;
+    void visit(widgets::Row &row, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Circle &circle, const widgets::LayoutMetadata& layoutMetadata) override;
 
 private:
