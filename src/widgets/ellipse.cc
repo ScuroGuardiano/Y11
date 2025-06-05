@@ -43,9 +43,9 @@ Ellipse* Ellipse::setColor(Color color) {
     return this;
 }
 
-Color* Ellipse::getColor()
+Color Ellipse::getColor()
 {
-    return &this->color;
+    return this->color;
 }
 
 unsigned short Ellipse::measureWidth()

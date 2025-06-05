@@ -5,6 +5,7 @@
 #include "src/widgets/ellipse.hpp"
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/circle.hpp"
+#include "src/widgets/text.hpp"
 #include "src/widgets/root.hpp"
 #include "src/widgets/row.hpp"
 
@@ -44,6 +45,9 @@ int main() {
     auto ellipse = std::make_shared<Ellipse>(100_px, 0.2_pc, backend);
     ellipse->setColor(y11::Color(0, 255, 0));
 
+    auto text = std::make_shared<Text>(32);
+    text->setString("Hello World");
+
     auto column = std::make_shared<Column>();
     column
         ->setArrangement(Arrangement::CENTER)
@@ -54,6 +58,7 @@ int main() {
 
     column->addWidget(square);
     column->addWidget(ellipse);
+    column->addWidget(text);
     column->addWidget(circle);
 
     auto row = std::make_shared<Row>();

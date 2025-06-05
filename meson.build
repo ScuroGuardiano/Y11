@@ -17,6 +17,7 @@ y11_sources = [
   'src/widgets/composite.cc',
   'src/widgets/circle.cc',
   'src/widgets/ellipse.cc',
+  'src/widgets/text.cc',
 ]
 
 executable(
