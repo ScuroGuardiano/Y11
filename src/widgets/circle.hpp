@@ -12,8 +12,8 @@ public:
     Circle(Dimension radius);
     Circle(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
 
-    Circle* setColor(Color color);
-    Color getColor();
+    Circle* setColor(Color color) override;
+    Color getColor() override;
     Circle* setRadius(Dimension radius);
     Circle* setRadius(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
     short getRadius();

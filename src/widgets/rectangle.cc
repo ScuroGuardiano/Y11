@@ -15,6 +15,10 @@ Rectangle* Rectangle::setSize(Dimension width, Dimension height) {
     return this;
 }
 
+Color Rectangle::getColor(){
+    return this->color;
+}
+
 Rectangle* Rectangle::setColor(Color color) {
     this->color = color;
     return this;

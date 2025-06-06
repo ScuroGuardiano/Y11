@@ -1,11 +1,20 @@
 #include "widget.hpp"
 #include "layout.hpp"
 #include <algorithm>
+#include "src/color.hpp"
 #include "src/widgets/common.hpp"
 
 namespace y11::widgets {
 
 Widget::~Widget() {}
+
+Color Widget::getColor() {
+    return Color();
+}
+
+Widget* Widget::setColor(Color color) {
+    return this;
+}
 
 Point Widget::getPos() {
     return { layoutMetadata.x, layoutMetadata.y };

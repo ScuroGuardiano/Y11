@@ -1,4 +1,5 @@
 #include "src/backend.hpp"
+#include "src/color.hpp"
 #include "src/padding.hpp"
 #include "src/widgets/column.hpp"
 #include "src/widgets/common.hpp"
@@ -8,6 +9,8 @@
 #include "src/widgets/text.hpp"
 #include "src/widgets/root.hpp"
 #include "src/widgets/row.hpp"
+#include "src/animations/animation.hpp"
+#include "src/animations/keyframe.hpp"
 
 #include <memory>
 #include <unistd.h>
@@ -30,6 +33,7 @@ std::unique_ptr<y11::Backend> createBackend() {
 
 int main() {
     using namespace y11::widgets;
+    using namespace y11::animations;
     using namespace y11::widgets::literals;
 
     const auto backend = createBackend();
@@ -66,13 +70,13 @@ int main() {
         ->setArrangement(Arrangement::SPACE_EVENLY)
         ->setAlignment(VerticalAlignment::CENTER);
     
-    auto rc1 = std::make_shared<Rectangle>(100_px, 100_px);
+    auto rc1 = std::make_shared<Rectangle>(20_px, 30_px);
     rc1->setColor(y11::Color(255, 0, 0));
 
-    auto rc2 = std::make_shared<Rectangle>(200_px, 400_px);
+    auto rc2 = std::make_shared<Rectangle>(40_px, 50_px);
     rc2->setColor(y11::Color(0, 255, 0));
 
-    auto rc3 = std::make_shared<Rectangle>(100_px, 1.0_pc);
+    auto rc3 = std::make_shared<Rectangle>(0.1_pc, 10_px);
     rc3->setColor(y11::Color(0, 0, 255));
 
     row->addWidget(rc1);
@@ -83,6 +87,18 @@ int main() {
 
     widgetTree.addWidget(column);
 
-    backend->render(widgetTree);
-    sleep(2);
+    auto a0 = std::make_shared<Animation>();
+    auto k0 = std::make_shared<Keyframe>(30,0.05,y11::Color(255,0,0));
+    auto k1 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,255,0));
+    auto k2 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,0,255));
+    a0->addKeyframe(k0);
+    a0->addKeyframe(k1);
+    a0->addKeyframe(k2);
+
+    for (unsigned short i = 0; i<200; i++) {
+        backend->render(widgetTree);
+        a0->evaluate(ellipse);
+        a0->evaluate(square);
+        a0->advance();
+    }
 }

@@ -17,8 +17,8 @@ public:
 
     unsigned short getHeight();
     Text* setHeight( unsigned short );
-    Color getColor();
-    Text* setColor( Color );
+    Color getColor() override;
+    Text* setColor( Color ) override;
     std::string getString();
     Text* setString( std::string );
 

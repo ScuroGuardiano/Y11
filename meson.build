@@ -18,6 +18,8 @@ y11_sources = [
   'src/widgets/circle.cc',
   'src/widgets/ellipse.cc',
   'src/widgets/text.cc',
+  'src/animations/keyframe.cc',
+  'src/animations/animation.cc',
 ]
 
 executable(

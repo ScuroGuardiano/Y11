@@ -2,6 +2,7 @@
 
 #include "../rect.hpp"
 #include "../padding.hpp"
+#include "src/color.hpp"
 #include "src/widgets/common.hpp"
 #include "src/widgets/layout_metadata.hpp"
 
@@ -12,6 +13,9 @@ class LayoutVisitor;
 
 class Widget {
 public:
+    virtual Color getColor();
+    virtual Widget* setColor(Color);
+
     /*
     * Returns area occupied by widget on the render plane
     */
