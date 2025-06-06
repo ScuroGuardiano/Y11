@@ -88,14 +88,14 @@ int main() {
     widgetTree.addWidget(column);
 
     auto a0 = std::make_shared<Animation>();
-    auto k0 = std::make_shared<Keyframe>(30,0.05,y11::Color(255,0,0));
-    auto k1 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,255,0));
-    auto k2 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,0,255));
+    auto k0 = std::make_shared<Keyframe>(30,0.05,y11::Color(255,0,0),1.05,1.0);
+    auto k1 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,255,0),1.0, 1.05);
+    auto k2 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,0,255), 1.0/1.05, 1.0/1.05);
     a0->addKeyframe(k0);
     a0->addKeyframe(k1);
     a0->addKeyframe(k2);
 
-    for (unsigned short i = 0; i<200; i++) {
+    for (unsigned short i = 0; i<320; i++) {
         backend->render(widgetTree);
         a0->evaluate(ellipse);
         a0->evaluate(square);

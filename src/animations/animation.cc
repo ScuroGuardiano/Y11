@@ -1,5 +1,6 @@
 #include "animation.hpp"
 #include "src/animations/keyframe.hpp"
+#include "src/widgets/common.hpp"
 #include "src/widgets/widget.hpp"
 #include <memory>
 
@@ -52,6 +53,10 @@ Animation* Animation::evaluate(std::shared_ptr<widgets::Widget> widget){
         / (1.0 + this->keyframes[this->index]->strength)
     );
     widget->setColor(color);
+
+    widgets::Dimension width = widget->getWidth()*this->keyframes[this->index]->mulX;
+    widgets::Dimension height = widget->getHeight()*this->keyframes[this->index]->mulY;
+    widget->setDims(width,height);
 
     return this;
 }
