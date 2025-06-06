@@ -39,6 +39,10 @@ Dimension Dimension::operator*(float v) const {
     return Dimension(unit, value*v);
 };
 
+Dimension Dimension::operator/(float v) const {
+    return Dimension(unit, value/v);
+};
+
 
 short Dimension::safeMultiply(short scalar) const {
     float res = std::round(value * scalar);
