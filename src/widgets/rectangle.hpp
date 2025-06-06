@@ -12,7 +12,6 @@ public:
 
     Rectangle* setColor(Color color) override;
     Color getColor() override;
-    Rectangle* setSize(Dimension width, Dimension height);
 
     void accept(RendererVisitor& visitor) override;
 

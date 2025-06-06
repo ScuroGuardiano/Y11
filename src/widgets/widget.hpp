@@ -15,6 +15,9 @@ class Widget {
 public:
     virtual Color getColor();
     virtual Widget* setColor(Color);
+    virtual Widget* setDims(Dimension, Dimension);
+    virtual Dimension getWidth();
+    virtual Dimension getHeight();
 
     /*
     * Returns area occupied by widget on the render plane

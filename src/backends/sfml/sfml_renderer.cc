@@ -20,14 +20,14 @@ void SfmlRenderer::visit(widgets::Rectangle &rect, const widgets::LayoutMetadata
 
 void SfmlRenderer::visit(widgets::Ellipse &ellipse, const widgets::LayoutMetadata &metadata) {
 
-    float rad_x = (float)ellipse.getRadiusX();
-    float rad_y = (float)ellipse.getRadiusY();
-    float aspect = rad_y / rad_x;
-    sf::CircleShape sf_ellipse(rad_x);
+    float width = (float)ellipse.getWidth().getPixelValue(metadata.contentWidth);
+    float height = (float)ellipse.getHeight().getPixelValue(metadata.contentHeight);
+    float aspect = height / width;
+    sf::CircleShape sf_ellipse(width/2.0);
 
-    sf_ellipse.setOrigin( rad_x/2.0, rad_x/2.0 );
+    sf_ellipse.setOrigin( width/2.0, width/2.0 );
     sf_ellipse.setScale(1.0, aspect);
-    sf_ellipse.setPosition(metadata.contentX + rad_x/2.0, metadata.contentY+rad_y/2.0);
+    sf_ellipse.setPosition(metadata.contentX + width/2.0, metadata.contentY+height/2.0);
     Color color = ellipse.getColor();
     sf_ellipse.setFillColor(sf::Color(color.r, color.g, color.b));
 
@@ -48,12 +48,13 @@ void SfmlRenderer::visit(widgets::Row &row, const widgets::LayoutMetadata &metad
 }
 
 void SfmlRenderer::visit(widgets::Circle &circle, const widgets::LayoutMetadata &metadata) {
-    sf::CircleShape sf_circle(circle.getRadius());
+    short bound = metadata.contentWidth;
+    if (bound > metadata.contentHeight) {bound = metadata.contentHeight;}
+    sf::CircleShape sf_circle(circle.getRadius().getPixelValue(bound));
     
     sf_circle.setPosition(metadata.contentX, metadata.contentY);
     Color color = circle.getColor();
     sf_circle.setFillColor(sf::Color(color.r, color.g, color.b));
-
 
     window.draw(sf_circle);
 }
@@ -64,7 +65,7 @@ void SfmlRenderer::visit(widgets::Text &text, const widgets::LayoutMetadata &met
     sf::Text txt;
     txt.setString(text.getString());
     txt.setFont(font);
-    txt.setCharacterSize(text.getHeight());
+    txt.setCharacterSize(text.getLetterHeight());
     Color color = text.getColor();
     txt.setFillColor(sf::Color(color.r, color.g, color.b));
     

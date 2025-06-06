@@ -4,11 +4,11 @@
 
 namespace y11::widgets {
 
-Circle::Circle(Dimension radius)
-    : radius(radius.getPixelValue(2137)) {}
+Circle::Circle(Dimension radius) {
+    this->width = radius*2.0;
+    this->height = radius*2.0;
+}
 
-Circle::Circle(Dimension radius, const std::unique_ptr<y11::Backend>& backend)
-    : radius(radius.getPixelValue(backend->getWidth())) {}
 
 Circle* Circle::setColor(Color color)
 {
@@ -23,30 +23,16 @@ Color Circle::getColor()
 
 Circle* Circle::setRadius(Dimension radius)
 {
-    this->radius = radius.getPixelValue(2137);
+    this->width = radius*2.0;
+    this->height = radius*2.0;
     return this;
 }
 
-Circle* Circle::setRadius(Dimension radius, const std::unique_ptr<y11::Backend>& backend)
+Dimension Circle::getRadius()
 {
-    this->radius = radius.getPixelValue(backend->getWidth());
-    return this;
+    return this->width*0.5;
 }
 
-short Circle::getRadius()
-{
-    return this->radius;
-}
-
-unsigned short Circle::measureWidth()
-{
-    return radius * 2 + padding.totalHorizontal();
-}
-
-unsigned short Circle::measureHeight()
-{
-    return radius * 2 + padding.totalVertical();
-}
 
 void Circle::accept(RendererVisitor& visitor)
 {

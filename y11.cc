@@ -44,13 +44,13 @@ int main() {
     auto square = std::make_shared<Rectangle>(100_px, 50_px);
     square->setColor(y11::Color(0, 255, 0));
 
-    auto circle = std::make_shared<Circle>(0.04_pc, backend);
+    auto circle = std::make_shared<Circle>(0.2_pc);
     
-    auto ellipse = std::make_shared<Ellipse>(100_px, 0.02_pc, backend);
+    auto ellipse = std::make_shared<Ellipse>(100_px, 50_px);
     ellipse->setColor(y11::Color(0, 255, 0));
 
     auto text = std::make_shared<Text>("HelloWorld");
-    text->setHeight(32);
+    text->setLetterHeight(32);
 
     auto column = std::make_shared<Column>();
     column

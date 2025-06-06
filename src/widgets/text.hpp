@@ -15,8 +15,8 @@ class Text : public Widget {
 public:
     Text( std::string );
 
-    unsigned short getHeight();
-    Text* setHeight( unsigned short );
+    unsigned short getLetterHeight();
+    Text* setLetterHeight( unsigned short );
     Color getColor() override;
     Text* setColor( Color ) override;
     std::string getString();
@@ -28,7 +28,7 @@ public:
 
 private:
     Color color = y11::colors::white;
-    unsigned short height{14};
+    unsigned short lH{14};
     std::string stuff{};
 };
 

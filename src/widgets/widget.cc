@@ -16,6 +16,21 @@ Widget* Widget::setColor(Color color) {
     return this;
 }
 
+Widget* Widget::setDims(Dimension width, Dimension height) {
+    this->width = width;
+    this->height = height;
+    return this;
+}
+
+Dimension Widget::getWidth() {
+    return this->width;
+}
+
+Dimension Widget::getHeight() {
+    return this->height;
+}
+
+
 Point Widget::getPos() {
     return { layoutMetadata.x, layoutMetadata.y };
 }

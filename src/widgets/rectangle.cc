@@ -8,13 +8,6 @@ Rectangle::Rectangle(Dimension width, Dimension height) {
     this->height = height;
 }
 
-Rectangle* Rectangle::setSize(Dimension width, Dimension height) {
-    this->width = width;
-    this->height = height;
-
-    return this;
-}
-
 Color Rectangle::getColor(){
     return this->color;
 }
