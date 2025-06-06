@@ -5,6 +5,7 @@
 #include "src/widgets/ellipse.hpp"
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/circle.hpp"
+#include "src/widgets/text.hpp"
 #include "src/widgets/root.hpp"
 #include "src/widgets/row.hpp"
 
@@ -36,13 +37,16 @@ int main() {
 
     Root widgetTree;
 
-    auto square = std::make_shared<Rectangle>(200_px, 200_px);
+    auto square = std::make_shared<Rectangle>(100_px, 50_px);
     square->setColor(y11::Color(0, 255, 0));
 
-    auto circle = std::make_shared<Circle>(0.1_pc, backend);
+    auto circle = std::make_shared<Circle>(0.04_pc, backend);
     
-    auto ellipse = std::make_shared<Ellipse>(100_px, 0.2_pc, backend);
+    auto ellipse = std::make_shared<Ellipse>(100_px, 0.02_pc, backend);
     ellipse->setColor(y11::Color(0, 255, 0));
+
+    auto text = std::make_shared<Text>("HelloWorld");
+    text->setHeight(32);
 
     auto column = std::make_shared<Column>();
     column
@@ -54,6 +58,7 @@ int main() {
 
     column->addWidget(square);
     column->addWidget(ellipse);
+    column->addWidget(text);
     column->addWidget(circle);
 
     auto row = std::make_shared<Row>();

@@ -16,6 +16,7 @@ public:
     void visit(widgets::Column &column, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Row &row, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Circle &circle, const widgets::LayoutMetadata& layoutMetadata) override;
+    void visit(widgets::Text& text, const widgets::LayoutMetadata& LayoutMetadata) override;
 
 private:
     unsigned int getWidth(const Padding& padding) {

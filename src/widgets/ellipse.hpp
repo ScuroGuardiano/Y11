@@ -13,7 +13,7 @@ public:
     Ellipse(Dimension width, Dimension height, const std::unique_ptr<y11::Backend>& backend);
 
     Ellipse* setColor(Color color);
-    Color* getColor();
+    Color getColor();
     Ellipse* setDims(Dimension radius_x, Dimension radius_y);
     Ellipse* setDims(Dimension radius_x, Dimension radius_y, const std::unique_ptr<y11::Backend>& backend);
     short getRadiusX();

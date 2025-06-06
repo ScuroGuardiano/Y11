@@ -13,7 +13,7 @@ public:
     Circle(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
 
     Circle* setColor(Color color);
-    Color* getColor();
+    Color getColor();
     Circle* setRadius(Dimension radius);
     Circle* setRadius(Dimension radius, const std::unique_ptr<y11::Backend>& backend);
     short getRadius();

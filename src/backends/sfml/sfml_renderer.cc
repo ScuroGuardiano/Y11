@@ -1,4 +1,6 @@
 #include "sfml_renderer.hpp"
+#include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/Text.hpp"
 #include "src/widgets/layout_metadata.hpp"
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/widget.hpp"
@@ -26,8 +28,8 @@ void SfmlRenderer::visit(widgets::Ellipse &ellipse, const widgets::LayoutMetadat
     sf_ellipse.setOrigin( rad_x/2.0, rad_x/2.0 );
     sf_ellipse.setScale(1.0, aspect);
     sf_ellipse.setPosition(metadata.contentX + rad_x/2.0, metadata.contentY+rad_y/2.0);
-    Color* color = ellipse.getColor();
-    sf_ellipse.setFillColor(sf::Color(color->r, color->g, color->b));
+    Color color = ellipse.getColor();
+    sf_ellipse.setFillColor(sf::Color(color.r, color.g, color.b));
 
     window.draw(sf_ellipse);
 }
@@ -49,11 +51,25 @@ void SfmlRenderer::visit(widgets::Circle &circle, const widgets::LayoutMetadata 
     sf::CircleShape sf_circle(circle.getRadius());
     
     sf_circle.setPosition(metadata.contentX, metadata.contentY);
-    Color* color = circle.getColor();
-    sf_circle.setFillColor(sf::Color(color->r, color->g, color->b));
+    Color color = circle.getColor();
+    sf_circle.setFillColor(sf::Color(color.r, color.g, color.b));
 
 
     window.draw(sf_circle);
+}
+
+void SfmlRenderer::visit(widgets::Text &text, const widgets::LayoutMetadata &metadata) {
+    sf::Font font;
+    font.loadFromFile("src/FiraCode.ttf");
+    sf::Text txt;
+    txt.setString(text.getString());
+    txt.setFont(font);
+    txt.setCharacterSize(text.getHeight());
+    Color color = text.getColor();
+    txt.setFillColor(sf::Color(color.r, color.g, color.b));
+    
+    txt.setPosition(metadata.contentX + ( metadata.contentWidth - (float)text.measureWidth() )/2.0, metadata.contentY );
+    window.draw(txt);
 }
 
 }

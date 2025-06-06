@@ -16,9 +16,9 @@ Circle* Circle::setColor(Color color)
     return this;
 }
 
-Color* Circle::getColor()
+Color Circle::getColor()
 {
-    return &this->color;
+    return this->color;
 }
 
 Circle* Circle::setRadius(Dimension radius)
