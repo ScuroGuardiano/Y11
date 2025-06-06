@@ -68,9 +68,7 @@ void SfmlRenderer::visit(widgets::Text &text, const widgets::LayoutMetadata &met
     Color color = text.getColor();
     txt.setFillColor(sf::Color(color.r, color.g, color.b));
     
-    float width = txt.getLocalBounds().width;
-    text.setWidth(width);
-    txt.setPosition(metadata.contentX + ( metadata.contentWidth - width )/2.0, metadata.contentY );
+    txt.setPosition(metadata.contentX + ( metadata.contentWidth - (float)text.measureWidth() )/2.0, metadata.contentY );
     window.draw(txt);
 }
 

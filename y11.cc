@@ -37,16 +37,16 @@ int main() {
 
     Root widgetTree;
 
-    auto square = std::make_shared<Rectangle>(200_px, 200_px);
+    auto square = std::make_shared<Rectangle>(100_px, 50_px);
     square->setColor(y11::Color(0, 255, 0));
 
-    auto circle = std::make_shared<Circle>(0.1_pc, backend);
+    auto circle = std::make_shared<Circle>(0.04_pc, backend);
     
-    auto ellipse = std::make_shared<Ellipse>(100_px, 0.2_pc, backend);
+    auto ellipse = std::make_shared<Ellipse>(100_px, 0.02_pc, backend);
     ellipse->setColor(y11::Color(0, 255, 0));
 
-    auto text = std::make_shared<Text>(32);
-    text->setString("Hello World");
+    auto text = std::make_shared<Text>("HelloWorld");
+    text->setHeight(32);
 
     auto column = std::make_shared<Column>();
     column

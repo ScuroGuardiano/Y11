@@ -1,16 +1,28 @@
 #include "text.hpp"
 #include "renderer_visitor.hpp"
-#include "src/backend.hpp"
 #include <string>
 
 namespace y11::widgets {
 
-Text::Text(unsigned short height){
-    this->height = height;
+Text::Text( std::string stuff ){
+    this->stuff = stuff;
 }
 
-Text* Text::setString(std::string stuff) {
-    this->stuff = stuff;
+unsigned short Text::getHeight() {
+    return this->height;
+}
+
+Text* Text::setHeight( unsigned short height ) {
+    this->height = height;
+    return this;
+}
+
+Color Text::getColor(){
+    return this->color;
+}
+
+Text* Text::setColor(Color color) {
+    this->color = color;
     return this;
 }
 
@@ -19,30 +31,27 @@ std::string Text::getString()
     return this->stuff;
 }
 
-Text* Text::setColor(Color color) {
-    this->color = color;
+Text* Text::setString(std::string stuff) {
+    this->stuff = stuff;
     return this;
 }
 
-Text* Text::setWidth(float width) {
-    this->width = width;
-    return this;
+#if defined(Y11_BACKEND_USE_BLANK)
+unsigned short Text::measureWidth(){
+    return stuff.length() * height + padding.totalHorizontal();
 }
 
-Color Text::getColor()
-{
-    return this->color;
+#elif defined(Y11_BACKEND_USE_SFML)
+unsigned short Text::measureWidth(){
+    sf::Font font;
+    font.loadFromFile("src/FiraCode.ttf");
+    sf::Text txt;
+    txt.setString(this->stuff);
+    txt.setFont(font);
+    txt.setCharacterSize(this->height);
+    return txt.getLocalBounds().width;
 }
-
-unsigned short Text::getHeight() {
-    return this->height;
-}
-
-unsigned short Text::measureWidth()
-{
-    return width;
-    // return stuff.length() * height + padding.totalHorizontal();
-}
+#endif
 
 unsigned short Text::measureHeight()
 {
