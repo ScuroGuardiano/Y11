@@ -1,6 +1,7 @@
 #pragma once
 
 #include "widgets/root.hpp"
+#include "events/event.hpp"
 
 namespace y11 {
 
@@ -11,6 +12,8 @@ public:
     virtual ~Backend() = 0;
     virtual unsigned int getWidth() = 0;
     virtual unsigned int getHeight() = 0;
+    virtual bool getKeyState(Key) = 0;
+    virtual void renderRaw(short, short, short) = 0;
 
 protected:
     Backend() = default;
@@ -24,6 +27,8 @@ public:
     inline void render(widgets::Root&) override {}
     inline unsigned int getWidth() override {return 0;};
     inline unsigned int getHeight() override {return 0;};
+    inline bool getKeyState(Key) override {return false;};
+    inline void renderRaw(short,short,short) override {return;}
 };
 
 }

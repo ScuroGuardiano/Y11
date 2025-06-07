@@ -18,6 +18,7 @@ public:
     void visit(widgets::Circle &circle, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Text& text, const widgets::LayoutMetadata& LayoutMetadata) override;
 
+    sf::RenderWindow& window;
 private:
     unsigned int getWidth(const Padding& padding) {
         return window.getSize().x - padding.left - padding.right;
@@ -27,7 +28,6 @@ private:
         return window.getSize().y - padding.top - padding.bottom;
     }
 
-    sf::RenderWindow& window;
 };
 
 }

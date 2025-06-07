@@ -20,6 +20,7 @@ y11_sources = [
   'src/widgets/text.cc',
   'src/animations/keyframe.cc',
   'src/animations/animation.cc',
+  'src/events/cursor.cc',
 ]
 
 executable(
