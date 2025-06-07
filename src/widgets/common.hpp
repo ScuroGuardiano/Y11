@@ -68,6 +68,8 @@ public:
     float getValue() const;
     DimensionUnit getUnit() const;
     Dimension operator-() const;
+    Dimension operator*(float) const;
+    Dimension operator/(float) const;
 
     inline bool isAuto() const {
         return this->unit == DimensionUnit::AUTO;

@@ -8,12 +8,12 @@ Text::Text( std::string stuff ){
     this->stuff = stuff;
 }
 
-unsigned short Text::getHeight() {
-    return this->height;
+unsigned short Text::getLetterHeight() {
+    return this->lH;
 }
 
-Text* Text::setHeight( unsigned short height ) {
-    this->height = height;
+Text* Text::setLetterHeight( unsigned short height ) {
+    this->lH = height;
     return this;
 }
 
@@ -48,14 +48,14 @@ unsigned short Text::measureWidth(){
     sf::Text txt;
     txt.setString(this->stuff);
     txt.setFont(font);
-    txt.setCharacterSize(this->height);
+    txt.setCharacterSize(this->lH);
     return txt.getLocalBounds().width;
 }
 #endif
 
 unsigned short Text::measureHeight()
 {
-    return height + padding.totalVertical();
+    return lH + padding.totalVertical();
 }
 
 void Text::accept(RendererVisitor& visitor) {
