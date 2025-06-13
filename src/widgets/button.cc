@@ -17,6 +17,11 @@ Button* Button::setColor(Color color) {
     return this;
 }
 
+Button* Button::setText(Text text){
+    this->text = text;
+    return this;
+}
+
 void Button::accept(RendererVisitor& visitor) {
     visitor.visit(*this, this->layoutMetadata);
 }

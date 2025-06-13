@@ -95,6 +95,23 @@ void SfmlRenderer::visit(widgets::Button &butt, const widgets::LayoutMetadata &m
     
     window.draw(border);
     window.draw(sf_rect);
+    
+    sf::Font font;
+    font.loadFromFile("src/FiraCode.ttf");
+    sf::Text txt;
+    txt.setString(butt.text.getString());
+    txt.setFont(font);
+    txt.setCharacterSize(butt.text.getLetterHeight());
+    Color color = butt.text.getColor();
+    txt.setFillColor(sf::Color(color.r, color.g, color.b));
+
+    float x = ((float)metadata.contentWidth) / 2.0 + (float)metadata.contentX;
+    float y = ((float)metadata.contentHeight) / 2.0 + (float)metadata.contentY;
+    x -= ((float)butt.text.measureWidth()) / 2.0;
+    y -= ((float)butt.text.getLetterHeight()) / 2.0;
+    
+    txt.setPosition(x,y);
+    window.draw(txt);
 }
 
 }
