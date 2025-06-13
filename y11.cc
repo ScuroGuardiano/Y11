@@ -1,5 +1,6 @@
 #include "src/backend.hpp"
 #include "src/color.hpp"
+#include "src/events/event.hpp"
 #include "src/padding.hpp"
 #include "src/widgets/column.hpp"
 #include "src/widgets/common.hpp"
@@ -11,6 +12,7 @@
 #include "src/widgets/row.hpp"
 #include "src/animations/animation.hpp"
 #include "src/animations/keyframe.hpp"
+#include "src/events/cursor.hpp"
 
 #include <memory>
 #include <unistd.h>
@@ -95,10 +97,17 @@ int main() {
     a0->addKeyframe(k1);
     a0->addKeyframe(k2);
 
+
+    auto cursor = std::make_unique<y11::Cursor>();
+    
     for (unsigned short i = 0; i<320; i++) {
         backend->render(widgetTree);
+        cursor->evaluate(backend);
         a0->evaluate(ellipse);
         a0->evaluate(square);
         a0->advance();
+
+
+        if ( backend->getKeyState(y11::Key::Esc) ) {return 2;}
     }
 }
