@@ -7,6 +7,7 @@
 #include "column.hpp"
 #include "row.hpp"
 #include "text.hpp"
+#include "button.hpp"
 
 namespace y11::widgets {
 
@@ -18,6 +19,7 @@ public:
     virtual void visit(Row& row, const LayoutMetadata& layoutMetadata) = 0;
     virtual void visit(Circle& circle, const LayoutMetadata& LayoutMetadata) = 0;
     virtual void visit(Text& text, const LayoutMetadata& LayoutMetadata) = 0;
+    virtual void visit(Button& rect, const LayoutMetadata& layoutMetadata) = 0;
     virtual ~RendererVisitor() {}
 };
 
