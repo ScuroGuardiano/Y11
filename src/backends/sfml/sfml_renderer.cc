@@ -21,8 +21,12 @@ void SfmlRenderer::visit(widgets::Rectangle &rect, const widgets::LayoutMetadata
 
 void SfmlRenderer::visit(widgets::Ellipse &ellipse, const widgets::LayoutMetadata &metadata) {
 
-    float width = (float)ellipse.getWidth().getPixelValue(metadata.contentWidth);
-    float height = (float)ellipse.getHeight().getPixelValue(metadata.contentHeight);
+    // float width = (float)ellipse.getWidth().getPixelValue(metadata.contentWidth);
+    // float height = (float)ellipse.getHeight().getPixelValue(metadata.contentHeight);
+
+    float width = metadata.contentWidth;
+    float height = metadata.contentHeight;
+
     float aspect = height / width;
     sf::CircleShape sf_ellipse(width/2.0);
 

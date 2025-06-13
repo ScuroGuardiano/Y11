@@ -13,6 +13,7 @@
 #include "src/animations/animation.hpp"
 #include "src/animations/keyframe.hpp"
 #include "src/events/cursor.hpp"
+#include "src/events/event_loop.hpp"
 
 #include <memory>
 #include <unistd.h>
@@ -37,6 +38,7 @@ int main() {
     using namespace y11::widgets;
     using namespace y11::animations;
     using namespace y11::widgets::literals;
+    using namespace y11::events;
 
     const auto backend = createBackend();
     backend->init();
@@ -51,7 +53,7 @@ int main() {
     auto ellipse = std::make_shared<Ellipse>(100_px, 50_px);
     ellipse->setColor(y11::Color(0, 255, 0));
 
-    auto text = std::make_shared<Text>("HelloWorld");
+    auto text = std::make_shared<Text>("Hello World");
     text->setLetterHeight(32);
     
     auto button = std::make_shared<Button>(200_px, 100_px);
@@ -94,9 +96,9 @@ int main() {
     widgetTree.addWidget(column);
 
     auto a0 = std::make_shared<Animation>();
-    auto k0 = std::make_shared<Keyframe>(30,0.05,y11::Color(255,0,0),1.05,1.0);
-    auto k1 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,255,0),1.0, 1.05);
-    auto k2 = std::make_shared<Keyframe>(30,0.05,y11::Color(0,0,255), 1.0/1.05, 1.0/1.05);
+    auto k0 = std::make_shared<Keyframe>(100,0.01,y11::Color(255,0,0),1.01,1.0);
+    auto k1 = std::make_shared<Keyframe>(100,0.01,y11::Color(0,255,0),1.0, 1.01);
+    auto k2 = std::make_shared<Keyframe>(100,0.01,y11::Color(0,0,255), 1.0/1.01, 1.0/1.01);
     a0->addKeyframe(k0);
     a0->addKeyframe(k1);
     a0->addKeyframe(k2);
@@ -104,14 +106,31 @@ int main() {
 
     auto cursor = std::make_unique<y11::Cursor>();
     
-    for (unsigned short i = 0; i<320; i++) {
-        backend->render(widgetTree);
-        cursor->evaluate(backend);
+
+    backend->render(widgetTree);
+
+    EventLoop eventLoop{};
+    eventLoop.bind(backend.get());
+
+    eventLoop.addEventListener(EventType::KeyDown, [&](Event& evt) {
+        KeyEvent& kevt = dynamic_cast<KeyEvent&>(evt);
+        
+        if (kevt.key == Key::Esc) {
+            eventLoop.stop();
+        }
+    });
+
+    eventLoop.addEventListener(EventType::Quit, [&](Event& evt) {
+        eventLoop.stop();
+    });
+
+    eventLoop.addEventListener(EventType::AnimationFrame, [&](Event& evt) {
         a0->evaluate(ellipse);
         a0->evaluate(square);
         a0->advance();
 
+        backend->render(widgetTree);
+    });
 
-        if ( backend->getKeyState(y11::Key::Esc) ) {return 2;}
-    }
+    eventLoop.run();
 }
