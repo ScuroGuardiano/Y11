@@ -21,6 +21,7 @@ y11_sources = [
   'src/animations/keyframe.cc',
   'src/animations/animation.cc',
   'src/events/cursor.cc',
+  'src/events/event_loop.cc'
 ]
 
 executable(
@@ -31,7 +32,7 @@ executable(
     'src/backends/sfml/sfml_widget_metadata.cc',
   ],
   dependencies: [ sfml, opengl ],
-  cpp_args: '-DY11_BACKEND_USE_SFML'
+  cpp_args: '-DY11_BACKEND_USE_SFML --std=c++20'
 )
 
 # executable(
