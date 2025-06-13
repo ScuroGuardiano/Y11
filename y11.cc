@@ -55,6 +55,9 @@ int main() {
 
     auto text = std::make_shared<Text>("Hello World");
     text->setLetterHeight(32);
+    
+    auto button = std::make_shared<Button>(200_px, 100_px);
+    button->setColor(y11::Color(64, 128, 0));
 
     auto column = std::make_shared<Column>();
     column
@@ -68,6 +71,7 @@ int main() {
     column->addWidget(ellipse);
     column->addWidget(text);
     column->addWidget(circle);
+    column->addWidget(button);
 
     auto row = std::make_shared<Row>();
     row

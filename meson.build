@@ -21,6 +21,7 @@ y11_sources = [
   'src/animations/keyframe.cc',
   'src/animations/animation.cc',
   'src/events/cursor.cc',
+  'src/widgets/button.cc',
   'src/events/event_loop.cc'
 ]
 

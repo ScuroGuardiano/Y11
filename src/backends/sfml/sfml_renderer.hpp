@@ -17,6 +17,7 @@ public:
     void visit(widgets::Row &row, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Circle &circle, const widgets::LayoutMetadata& layoutMetadata) override;
     void visit(widgets::Text& text, const widgets::LayoutMetadata& LayoutMetadata) override;
+    void visit(widgets::Button &rect, const widgets::LayoutMetadata& layoutMetadata) override;
 
     sf::RenderWindow& window;
 private:

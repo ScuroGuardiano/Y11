@@ -1,6 +1,7 @@
 #include "sfml_renderer.hpp"
 #include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include "src/widgets/button.hpp"
 #include "src/widgets/layout_metadata.hpp"
 #include "src/widgets/rectangle.hpp"
 #include "src/widgets/widget.hpp"
@@ -75,6 +76,29 @@ void SfmlRenderer::visit(widgets::Text &text, const widgets::LayoutMetadata &met
     
     txt.setPosition(metadata.contentX + ( metadata.contentWidth - (float)text.measureWidth() )/2.0, metadata.contentY );
     window.draw(txt);
+}
+
+void SfmlRenderer::visit(widgets::Button &butt, const widgets::LayoutMetadata &metadata) {
+    sf::RectangleShape border({ (float)metadata.contentWidth, (float)metadata.contentHeight });
+    border.setPosition(metadata.contentX, metadata.contentY);
+    border.setFillColor(sf::Color(
+        (unsigned char)(0.5*(float)butt.color.r), 
+        (unsigned char)(0.5*(float)butt.color.g), 
+        (unsigned char)(0.5*(float)butt.color.b) ));
+
+    float min = (float)metadata.contentWidth;
+    if (min > (float)metadata.contentHeight) min = (float)metadata.contentHeight;
+    
+    float offset = ( min - min*0.8 )/2.0;
+    
+    float width = ((float)metadata.contentWidth) - offset - offset;
+    float height = ((float)metadata.contentHeight) - offset - offset;
+    sf::RectangleShape sf_rect({ width, height });
+    sf_rect.setPosition(metadata.contentX+offset, metadata.contentY+offset);
+    sf_rect.setFillColor(sf::Color(butt.color.r, butt.color.g, butt.color.b));
+    
+    window.draw(border);
+    window.draw(sf_rect);
 }
 
 }
