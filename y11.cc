@@ -10,6 +10,7 @@
 #include "src/widgets/text.hpp"
 #include "src/widgets/root.hpp"
 #include "src/widgets/row.hpp"
+#include "src/widgets/button.hpp"
 #include "src/animations/animation.hpp"
 #include "src/animations/keyframe.hpp"
 #include "src/events/cursor.hpp"
@@ -17,6 +18,7 @@
 
 #include <memory>
 #include <unistd.h>
+#include <locale.h>
 
 #ifdef Y11_BACKEND_USE_SFML
 #include "src/backends/sfml/sfml_backend.hpp"
@@ -25,7 +27,7 @@ std::unique_ptr<y11::Backend> createBackend() {
     return std::make_unique<y11::SfmlBackend>(1200, 800);
 }
 
-#elif defined(Y11_BACKEND_USE_BLANK)
+#else
 
 std::unique_ptr<y11::Backend> createBackend() {
     return std::make_unique<y11::BlankBackend>();
@@ -39,6 +41,8 @@ int main() {
     using namespace y11::animations;
     using namespace y11::widgets::literals;
     using namespace y11::events;
+
+    setlocale(LC_ALL, "");
 
     const auto backend = createBackend();
     backend->init();
@@ -67,9 +71,18 @@ int main() {
 
     column->height = 1.0_pc;
 
-    column->addWidget(square);
-    column->addWidget(ellipse);
+    auto innerColumn = std::make_shared<Column>();
+    innerColumn
+        ->setArrangement(Arrangement::CENTER)
+        ->setAlignment(HorizontalAlignment::CENTER)
+        ->setGap(20)
+        ->setDims(Dimension::automatic(), 300_px);
+
+    innerColumn->addWidget(square);
+    innerColumn->addWidget(ellipse);
+
     column->addWidget(text);
+    column->addWidget(innerColumn);
     column->addWidget(circle);
     column->addWidget(button);
 
@@ -109,6 +122,19 @@ int main() {
 
     backend->render(widgetTree);
 
+    std::vector<std::string> texts {
+        "UwU ->",
+        "<- Hello World ->",
+        "<- Nienawidzę C++ ->",
+        "<- C++ śmierdzi ->",
+        "<- C# the best <3 ->",
+        "<- Naura"
+    };
+
+    size_t textidx = 1;
+
+    text->setString(texts[textidx]);
+
     EventLoop eventLoop{};
     eventLoop.bind(backend.get());
 
@@ -117,6 +143,27 @@ int main() {
         
         if (kevt.key == Key::Esc) {
             eventLoop.stop();
+        }
+
+        if (kevt.key == Key::Left) {
+            if (textidx == 0) {
+                textidx = texts.size() - 1;
+            }
+            else {
+                textidx -= 1;
+            }
+
+            text->setString(texts[textidx]);
+        }
+
+        if (kevt.key == Key::Right) {
+            if (textidx >= (texts.size() - 1)) {
+                textidx = 0;
+            }
+            else {
+                textidx += 1;
+            }
+            text->setString(texts[textidx]);
         }
     });
 

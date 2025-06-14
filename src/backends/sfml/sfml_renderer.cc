@@ -65,11 +65,18 @@ void SfmlRenderer::visit(widgets::Circle &circle, const widgets::LayoutMetadata 
 }
 
 void SfmlRenderer::visit(widgets::Text &text, const widgets::LayoutMetadata &metadata) {
-    sf::Font font;
-    font.loadFromFile("src/FiraCode.ttf");
+    static sf::Font font;
+    static bool fontLoaded = false;
+
+    if (!fontLoaded) {
+        font.loadFromFile("src/FiraCode.ttf");
+        fontLoaded = true;
+    }
+
     sf::Text txt;
-    txt.setString(text.getString());
     txt.setFont(font);
+    std::string str = text.getString();    
+    txt.setString(sf::String::fromUtf8(str.begin(), str.end()));
     txt.setCharacterSize(text.getLetterHeight());
     Color color = text.getColor();
     txt.setFillColor(sf::Color(color.r, color.g, color.b));
